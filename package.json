@@ -1,0 +1,9 @@
+{
+  "name": "partner-painting-quotation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Partner Painting Quotation",
+  "scripts": {
+    "start": "python -m http.server 5500"
+  }
+}
