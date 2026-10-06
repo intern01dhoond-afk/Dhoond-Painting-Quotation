@@ -122,3 +122,10 @@ body {
       border: 2px solid #2196F3;
       background: #ecfdf5;
     }
+
+
+/* Branded quote action */
+button[onclick="shareWhatsApp()"]:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
