@@ -1,51 +1,82 @@
-// Summary modal
-function toggleSummaryModal(show) {
-      const modal = document.getElementById('summaryModal');
-      if (show) {
-        let total = 0;
-        const list = document.getElementById('summaryList');
-        list.innerHTML = rooms.map(r => {
-          const pkg = PACKAGES[r.packageIndex];
-          const paintCost = pkg ? r.area * (pkg.rate + r.puttyRate) : 0;
-          
-          let addonNotes = [];
-          let addonCost = 0;
+function formatIndianMoney(value) {
+  return `₹${Math.round(value).toLocaleString('en-IN')}`;
+}
 
-          const d = ADDON_CATALOG.door.find(x => x.id === r.doorSelection.id);
-          if (d && d.sqftRate > 0) {
-            const doorSqft = (r.doorSelection.width * r.doorSelection.height * 2);
-            const cost = Math.round(doorSqft * d.sqftRate) * r.doorSelection.qty;
-            addonCost += cost;
-            addonNotes.push(`${r.doorSelection.qty}x Door (${r.doorSelection.width}×${r.doorSelection.height}ft) @ ₹${cost}`);
-          }
+function previewNumberToWordsIndian(num) {
+  num = Math.round(Number(num) || 0);
+  if (num === 0) return 'Zero';
+  const ones = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
+  const tens = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
+  const under100 = n => n < 20 ? ones[n] : tens[Math.floor(n/10)] + (n%10 ? `-${ones[n%10]}` : '');
+  const under1000 = n => n < 100 ? under100(n) : `${ones[Math.floor(n/100)]} Hundred${n%100 ? ` ${under100(n%100)}` : ''}`;
+  const parts=[];
+  const crore=Math.floor(num/10000000); num%=10000000;
+  const lakh=Math.floor(num/100000); num%=100000;
+  const thousand=Math.floor(num/1000); num%=1000;
+  if(crore) parts.push(`${under1000(crore)} Crore`);
+  if(lakh) parts.push(`${under1000(lakh)} Lakh`);
+  if(thousand) parts.push(`${under1000(thousand)} Thousand`);
+  if(num) parts.push(under1000(num));
+  return parts.join(' ');
+}
 
-          const g = ADDON_CATALOG.grill.find(x => x.id === r.grillSelection.id);
-          if (g && g.sqftRate > 0) {
-            const grillSqft = (r.grillSelection.width * r.grillSelection.height);
-            const cost = Math.round(grillSqft * g.sqftRate) * r.grillSelection.qty;
-            addonCost += cost;
-            addonNotes.push(`${r.grillSelection.qty}x Grill (${r.grillSelection.width}×${r.grillSelection.height}ft) @ ₹${cost}`);
-          }
-
-          const roomTotal = paintCost + addonCost;
-          total += roomTotal;
-
-          return `
-            <div class="border-b border-gray-100 pb-2.5">
-              <div class="flex justify-between font-bold text-xs text-gray-900">
-                <span>${r.name}</span>
-                <span>₹ ${roomTotal.toLocaleString('en-IN')}</span>
-              </div>
-              <p class="text-[11px] text-gray-500 mt-0.5">${pkg ? pkg.name : 'Exterior package not configured'}</p>
-              <p class="text-[10px] text-gray-400">${r.area} sq.ft${pkg ? ` @ ₹${pkg.rate + r.puttyRate}/sq.ft` : ''}</p>
-              ${addonNotes.length > 0 ? `<p class="text-[10px] text-[#2196F3] font-medium mt-1">+ ${addonNotes.join(' • ')}</p>` : ''}
-            </div>
-          `;
-        }).join('');
-
-        document.getElementById('modalGrandTotal').innerText = `₹ ${total.toLocaleString('en-IN')}`;
-        modal.classList.remove('hidden');
-      } else {
-        modal.classList.add('hidden');
-      }
+function getPreviewQuoteData() {
+  let total = 0;
+  const quoteRooms = rooms.map((r, index) => {
+    const pkg = PACKAGES[r.packageIndex];
+    const paintCost = pkg ? r.area * (pkg.rate + r.puttyRate) : 0;
+    let addonCost = 0;
+    const addons = [];
+    const d = ADDON_CATALOG.door.find(x => x.id === r.doorSelection.id);
+    if (d && d.sqftRate > 0) {
+      const cost = Math.round(r.doorSelection.width * r.doorSelection.height * 2 * d.sqftRate) * r.doorSelection.qty;
+      addonCost += cost;
+      addons.push({ label: `${r.doorSelection.qty} × Door`, detail: `${d.name}`, amount: cost });
     }
+    const g = ADDON_CATALOG.grill.find(x => x.id === r.grillSelection.id);
+    if (g && g.sqftRate > 0) {
+      const cost = Math.round(r.grillSelection.width * r.grillSelection.height * g.sqftRate) * r.grillSelection.qty;
+      addonCost += cost;
+      addons.push({ label: `${r.grillSelection.qty} × Grill`, detail: `${g.name}`, amount: cost });
+    }
+    const row = { index:index+1, name:r.name, area:r.area, pkg:pkg ? pkg.name : 'Package not selected', rate:pkg ? pkg.rate + r.puttyRate : 0, amount:paintCost, addons };
+    total += paintCost + addonCost;
+    return row;
+  });
+  return { quoteRooms, total, customerName:customerName || 'Customer', customerMobile:customerMobile || '-', scope:paintScope === 'interior' ? 'Interior Painting' : 'Exterior Painting', propertyStatus:isVacant ? 'Vacant House' : 'Occupied / Furnished' };
+}
+
+function toggleSummaryModal(show) {
+  const modal = document.getElementById('summaryModal');
+  if (!show) { modal.classList.add('hidden'); return; }
+
+  const quote = getPreviewQuoteData();
+  const quotationNo = (() => {
+    try { return getQuotationNumber(); } catch (_) { return 'QTN-2026-00125'; }
+  })();
+
+  document.getElementById('previewQuotationNo').textContent = quotationNo;
+  document.getElementById('previewDate').textContent = formatDate();
+  document.getElementById('previewProperty').textContent = quote.propertyStatus;
+  document.getElementById('previewCustomer').textContent = quote.customerName;
+  document.getElementById('previewMobile').textContent = quote.customerMobile;
+  document.getElementById('previewService').textContent = quote.scope;
+  document.getElementById('previewStatus').textContent = quote.propertyStatus;
+  document.getElementById('previewFooterMobile').textContent = quote.customerMobile;
+  document.getElementById('previewTotal').textContent = formatIndianMoney(quote.total);
+  document.getElementById('previewTotalWords').textContent = `${previewNumberToWordsIndian(quote.total)} Rupees Only`;
+
+  document.getElementById('previewRows').innerHTML = quote.quoteRooms.map(room => `
+    <tr>
+      <td>${room.index}</td>
+      <td><div class="quote-room-cell"><div><span class="quote-room-name">${room.name}</span><span class="quote-room-area">${room.area} sq.ft</span></div></div></td>
+      <td><div class="quote-package"><strong>${room.pkg.split(' - ')[0]}</strong><span>${room.pkg.split(' - ').slice(1).join(' · ')}</span></div></td>
+      <td>${room.area}<br><span style="font-weight:400;color:#687b8c">sq.ft</span></td>
+      <td>₹${room.rate}</td>
+      <td>${formatIndianMoney(room.amount)}</td>
+    </tr>
+    ${room.addons.map(a => `<tr class="quote-addon-row"><td></td><td></td><td colspan="2"><span style="font-weight:800">${a.label}</span> <span style="color:#687b8c">${a.detail}</span></td><td></td><td>${formatIndianMoney(a.amount)}</td></tr>`).join('')}
+  `).join('');
+
+  modal.classList.remove('hidden');
+}

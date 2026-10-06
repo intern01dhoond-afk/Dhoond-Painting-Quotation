@@ -356,7 +356,7 @@
       </div>
       <div class="flex items-center gap-2">
         <button onclick="toggleSummaryModal(true)" class="px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs font-bold text-gray-700 hover:bg-gray-50">
-          Summary
+          Preview Quote
         </button>
         <button onclick="shareWhatsApp()" class="px-4 py-2.5 rounded-xl bg-[#059669] hover:bg-[#047857] text-white text-xs font-bold flex items-center gap-2 shadow-md">
           <i class="fa-brands fa-whatsapp text-sm"></i> Share Quote
@@ -411,24 +411,61 @@
       </div>
     </div>
 
-    <!-- Summary Modal -->
-    <div id="summaryModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-[2px] hidden flex items-center justify-center p-4">
-      <div class="bg-white w-full max-w-sm rounded-2xl max-h-[85vh] flex flex-col shadow-2xl overflow-hidden">
-        <div class="px-4 py-3 bg-gray-900 text-white flex items-center justify-between">
-          <h3 class="font-bold text-sm">Full Quote Summary</h3>
-          <button onclick="toggleSummaryModal(false)" class="text-gray-400 hover:text-white">
-            <i class="fa-solid fa-xmark text-lg"></i>
-          </button>
-        </div>
-        <div class="p-4 flex-1 overflow-y-auto space-y-3" id="summaryList"></div>
-        <div class="p-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between">
+    <!-- Customer-facing quotation preview -->
+    <div id="summaryModal" class="quote-preview-overlay fixed inset-0 z-50 hidden items-center justify-center p-2 sm:p-5">
+      <div class="quote-preview-shell">
+        <div class="quote-preview-toolbar">
           <div>
-            <span class="text-xs text-gray-500 block">Total Cost</span>
-            <span id="modalGrandTotal" class="text-lg font-black text-gray-900">₹0</span>
+            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Customer Preview</p>
+            <p class="text-sm font-bold text-white">Dhoond Painting Quotation</p>
           </div>
-          <button onclick="toggleSummaryModal(false)" class="px-4 py-2 bg-[#2196F3] text-white text-xs font-bold rounded-lg">
-            Done
-          </button>
+          <button onclick="toggleSummaryModal(false)" class="quote-preview-close" aria-label="Close preview"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <div class="quote-sheet custom-scrollbar">
+          <div class="quote-hero">
+            <div class="quote-brand">
+              <img src="assets/images/dhoond-logo.png" alt="Dhoond" />
+              <div class="quote-tagline">Better<br/>Homes<br/>Brighter<br/>Days</div>
+              <h1>PAINTING<br/><span>QUOTATION</span></h1>
+              <p>Interior Painting <b>•</b> Vacant House</p>
+            </div>
+            <div class="quote-room-art"><img src="assets/images/quote-room.svg" alt="Living room" /></div>
+          </div>
+
+          <div class="quote-meta-grid">
+            <div><span>Quotation No.</span><strong id="previewQuotationNo">QTN-2026-00125</strong></div>
+            <div><span>Date</span><strong id="previewDate">06 Oct 2026</strong></div>
+            <div><span>Property</span><strong id="previewProperty">Vacant House</strong></div>
+          </div>
+
+          <div class="quote-info-grid">
+            <div><span>CUSTOMER</span><strong id="previewCustomer">Henanthr</strong><small id="previewMobile">7204948579</small></div>
+            <div><span>SERVICE</span><strong id="previewService">Interior Painting</strong><small id="previewStatus">Vacant House</small></div>
+          </div>
+
+          <div class="quote-section-head">
+            <h2>Project Estimate</h2>
+            <p>Room-wise pricing based on the selected paint package</p>
+          </div>
+
+          <div class="quote-table-wrap">
+            <table class="quote-table">
+              <thead><tr><th>#</th><th>Room / Area</th><th>Package Details</th><th>Area</th><th>Rate</th><th>Amount</th></tr></thead>
+              <tbody id="previewRows"></tbody>
+            </table>
+          </div>
+
+          <div class="quote-total-card">
+            <div><span>Grand Total</span><small id="previewTotalWords">Fifteen Thousand Four Hundred Twenty Rupees Only</small></div>
+            <strong id="previewTotal">₹15,420</strong>
+          </div>
+
+          <div class="quote-footer">
+            <div class="quote-footer-brand"><img src="assets/images/dhoond-logo.png" alt="Dhoond" /></div>
+            <div class="quote-footer-contact"><span>+91 <b id="previewFooterMobile">7204948579</b></span><span>www.dhoond.co</span></div>
+            <div class="quote-thanks">Thank you<br/>for choosing Dhoond!</div>
+          </div>
         </div>
       </div>
     </div>
