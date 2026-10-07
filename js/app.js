@@ -1,7 +1,27 @@
 // Application bootstrap
+function resetCustomerEntry() {
+  try {
+    localStorage.removeItem('partnerQuotationSession');
+    sessionStorage.removeItem('partnerQuotationSession');
+  } catch (e) {}
+
+  const nameInput = document.getElementById('customerNameInput');
+  const mobileInput = document.getElementById('customerMobileInput');
+  if (nameInput) nameInput.value = '';
+  if (mobileInput) mobileInput.value = '';
+
+  customerName = '';
+  customerMobile = '';
+}
+
+// Clear browser-restored form values on both a normal open and a back/forward-cache restore.
+resetCustomerEntry();
+window.addEventListener('pageshow', function () {
+  setTimeout(resetCustomerEntry, 0);
+});
+
 window.addEventListener('load', function () {
-  // Each page opening starts a new quotation. Discard any session saved by older versions.
-  try { localStorage.removeItem('partnerQuotationSession'); } catch (e) {}
+  resetCustomerEntry();
   const splash = document.getElementById('svgSplashScreen');
   if (!splash) return;
   setTimeout(function () {

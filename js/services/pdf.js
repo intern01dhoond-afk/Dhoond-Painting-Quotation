@@ -69,6 +69,13 @@ function calculateQuoteData() {
       addons.push({ label: `${grillSelection.qty || 1} × Grill`, detail: `${g.name} • ${grillSelection.width} × ${grillSelection.height} ft`, amount: cost });
     }
 
+    const customAddon = r.customAddon || {};
+    const customAddonPrice = Math.max(0, Number(customAddon.price) || 0);
+    if (customAddon.name && customAddonPrice > 0) {
+      addonCost += customAddonPrice;
+      addons.push({ label: customAddon.name, detail: 'Custom add-on', amount: customAddonPrice });
+    }
+
     return {
       index: index + 1,
       name: r.name,

@@ -108,9 +108,14 @@ function renderActiveRoom() {
         document.getElementById('grillConfigBox').classList.add('hidden');
       }
 
+      const customAddon = room.customAddon || { name: '', price: 0 };
+      document.getElementById('inputCustomAddonName').value = customAddon.name || '';
+      document.getElementById('inputCustomAddonPrice').value = customAddon.price || '';
+
       // Total Room Calculation
       const paintingCost = pkg ? room.area * (pkg.rate + room.puttyRate) : 0;
-      const totalAddonCost = (selectedDoor.sqftRate > 0 ? totalDoorCost : 0) + (selectedGrill.sqftRate > 0 ? totalGrillCost : 0);
+      const customAddonCost = customAddon.name ? Math.max(0, Number(customAddon.price) || 0) : 0;
+      const totalAddonCost = (selectedDoor.sqftRate > 0 ? totalDoorCost : 0) + (selectedGrill.sqftRate > 0 ? totalGrillCost : 0) + customAddonCost;
       const totalRoomCost = paintingCost + totalAddonCost;
 
       let subtotalDetail = `${room.area} sq.ft × ₹${pkg.rate + room.puttyRate}/sq.ft`;
@@ -122,6 +127,15 @@ function renderActiveRoom() {
       document.getElementById('roomSubtotalVal').innerText = `₹ ${totalRoomCost.toLocaleString('en-IN')}`;
 
       recalcGrandTotal();
+    }
+
+function updateCustomAddon() {
+      const room = rooms[activeRoomIndex];
+      room.customAddon = {
+        name: document.getElementById('inputCustomAddonName').value.trim(),
+        price: Math.max(0, Number(document.getElementById('inputCustomAddonPrice').value) || 0)
+      };
+      renderActiveRoom();
     }
 
     // Set Preset Dimensions
@@ -333,6 +347,10 @@ function recalcGrandTotal() {
         if (g && g.sqftRate > 0) {
           const grillSqft = (r.grillSelection.width * r.grillSelection.height);
           roomCost += Math.round(grillSqft * g.sqftRate) * r.grillSelection.qty;
+        }
+
+        if (r.customAddon && r.customAddon.name) {
+          roomCost += Math.max(0, Number(r.customAddon.price) || 0);
         }
 
         grandTotal += roomCost;

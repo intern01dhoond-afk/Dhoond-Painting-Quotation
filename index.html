@@ -335,6 +335,21 @@
           </div>
         </div>
 
+        <!-- CUSTOM ADD-ON -->
+        <div class="space-y-2">
+          <label class="text-[11px] font-bold uppercase text-gray-500">3. Custom Add-on</label>
+          <div class="grid grid-cols-[1fr_110px] gap-2">
+            <div>
+              <label for="inputCustomAddonName" class="text-[10px] text-gray-500 font-bold block mb-1">Service Name</label>
+              <input id="inputCustomAddonName" type="text" maxlength="80" placeholder="e.g. Deep cleaning" onchange="updateCustomAddon()" class="w-full text-xs border border-gray-300 rounded-lg px-3 py-2.5 bg-white" />
+            </div>
+            <div>
+              <label for="inputCustomAddonPrice" class="text-[10px] text-gray-500 font-bold block mb-1">Price (₹)</label>
+              <input id="inputCustomAddonPrice" type="number" min="0" step="1" inputmode="numeric" placeholder="0" onchange="updateCustomAddon()" class="w-full text-xs border border-gray-300 rounded-lg px-3 py-2.5 bg-white" />
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <!-- Current Room Total Callout -->
@@ -488,6 +503,6 @@
   <script src="js/components/customer-flow.js"></script>
   <script src="js/components/quotation-ui.js"></script>
   <script src="js/components/summary.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/app.js?v=20261007-fresh-start"></script>
 </body>
 </html>

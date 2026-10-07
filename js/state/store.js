@@ -13,6 +13,7 @@
         area: 300, 
         packageIndex: 6, // Premium - Single Coat - With Primer (₹18)
         puttyRate: 0,
+        customAddon: { name: '', price: 0 },
         doorSelection: { id: null, width: 3, height: 7, isCustom: false, qty: 1 },
         grillSelection: { id: null, width: 4, height: 4, isCustom: false, qty: 1 }
       },
@@ -21,6 +22,7 @@
         area: 450, 
         packageIndex: 6, 
         puttyRate: 0,
+        customAddon: { name: '', price: 0 },
         doorSelection: { id: null, width: 3, height: 7, isCustom: false, qty: 1 },
         grillSelection: { id: null, width: 4, height: 4, isCustom: false, qty: 1 }
       },
@@ -29,6 +31,7 @@
         area: 160, 
         packageIndex: 1, 
         puttyRate: 0,
+        customAddon: { name: '', price: 0 },
         doorSelection: { id: null, width: 3, height: 7, isCustom: false, qty: 1 },
         grillSelection: { id: null, width: 4, height: 4, isCustom: false, qty: 1 }
       }

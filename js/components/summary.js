@@ -43,6 +43,12 @@ function getPreviewQuoteData() {
       addonCost += cost;
       addons.push({ label: `${r.grillSelection.qty} × Grill`, detail: `${g.name}`, amount: cost });
     }
+    const customAddon = r.customAddon || {};
+    const customAddonPrice = Math.max(0, Number(customAddon.price) || 0);
+    if (customAddon.name && customAddonPrice > 0) {
+      addonCost += customAddonPrice;
+      addons.push({ label: customAddon.name, detail: 'Custom add-on', amount: customAddonPrice });
+    }
     const row = { index:index+1, name:r.name, area:r.area, pkg:pkg ? pkg.name : 'Package not selected', rate:pkg ? pkg.rate + r.puttyRate : 0, amount:paintCost, addons };
     total += paintCost + addonCost;
     return row;
