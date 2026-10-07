@@ -54,6 +54,7 @@ body {
     }
 
     #partnerStartCard {
+      position: relative;
       width: min(100%, 460px);
       background: #FFFFFF;
       border: 1px solid #7D8080;
@@ -94,6 +95,19 @@ body {
 
     .start-step { display: none; }
     .start-step.active { display: block; }
+    .start-back-button {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      z-index: 1;
+      min-width: 36px;
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      background: #F7FBFF;
+    }
 
     .start-input {
       width: 100%;
@@ -193,4 +207,47 @@ button[onclick="shareWhatsApp()"]:disabled {
 .quote-thanks { border-left:1px solid #d8e3eb; padding-left:22px; text-align:center; font-family:cursive; font-style:italic; font-size:16px; color:#173b5a; }
 @media (max-width:700px){
   .quote-preview-shell{height:100dvh;border-radius:0}.quote-sheet{padding:18px 14px 18px}.quote-brand-banner{min-height:115px;padding:5px 4px 10px}.quote-brand-banner img{width:min(260px,76%)}.quote-brand-banner p{font-size:27px;margin-left:75px}.quote-hero{grid-template-columns:1fr;min-height:0}.quote-brand{padding:3px 2px 18px}.quote-brand h1{font-size:34px;letter-spacing:-1.5px}.quote-brand p{font-size:12px;margin-top:12px}.quote-room-art{height:150px;min-height:150px;border-radius:0 0 0 38px}.quote-meta-grid{padding:12px 10px;margin-top:12px}.quote-meta-grid>div{padding:0 8px}.quote-meta-grid strong{font-size:11px}.quote-meta-grid span{font-size:9px}.quote-info-grid{padding:12px 10px}.quote-info-grid strong{font-size:13px}.quote-section-head h2{font-size:18px}.quote-table th{font-size:8px;padding:8px 5px}.quote-table td{font-size:9px;padding:9px 5px}.quote-room-thumb{width:42px;height:30px}.quote-room-cell{gap:5px}.quote-room-name{font-size:9px}.quote-room-area{font-size:8px}.quote-package strong,.quote-package span{font-size:8px}.quote-table td:last-child{font-size:10px}.quote-total-card{padding:11px 10px}.quote-total-card>div span{font-size:18px}.quote-total-card>div small{font-size:8px}.quote-total-card>strong{font-size:19px;padding:12px 15px}.quote-footer{grid-template-columns:1fr;gap:10px}.quote-footer-contact,.quote-thanks{border-left:0;padding-left:0}.quote-thanks{text-align:left}.quote-preview-toolbar{padding:9px 12px}.quote-preview-actions{gap:5px}.quote-preview-action{padding:0 8px}.quote-preview-action span{display:none}
+}
+
+/* A compact, print-friendly quotation header with no oversized placeholder artwork. */
+.quote-header { display:grid; grid-template-columns:1fr 1fr; align-items:center; gap:20px; min-height:112px; padding:4px 2px 18px; border-bottom:2px solid #e5eef5; }
+.quote-brand-lockup { display:flex; flex-direction:column; align-items:flex-start; gap:4px; }
+.quote-brand-lockup img { display:block; width:160px; max-width:100%; height:44px; object-fit:contain; object-position:left center; }
+.quote-brand-lockup span { color:#53687b; font-family:'Caveat',cursive; font-size:19px; font-weight:700; line-height:1; }
+.quote-document-title { text-align:right; }
+.quote-document-title > span { color:#2196f3; font-size:9px; font-weight:800; letter-spacing:.16em; }
+.quote-document-title h1 { margin:5px 0 3px; color:#102a43; font-size:31px; font-weight:500; line-height:.98; letter-spacing:-.04em; text-transform:uppercase; }
+.quote-document-title h1 strong { color:#2196f3; font-weight:900; }
+.quote-document-title p { margin:0; color:#64778a; font-size:10px; }
+.quote-meta-grid { margin:14px 0 12px; border-radius:10px; background:#f2f8fc; padding:13px 16px; }
+.quote-meta-grid > div { padding:0 14px; }
+.quote-meta-grid > div:first-child { padding-left:0; }
+.quote-meta-grid > div:last-child { padding-right:0; }
+.quote-meta-grid strong { font-size:12px; }
+.quote-info-grid { margin-bottom:18px; border-radius:10px; background:#fff; border:1px solid #e0e8ef; border-left:3px solid #2196f3; padding:13px 16px; }
+.quote-info-grid strong { font-size:15px; }
+.quote-section-head { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin:0 0 9px; }
+.quote-section-head h2 { font-size:18px; letter-spacing:.01em; }
+.quote-section-head p { text-align:right; }
+.quote-table-wrap { border-radius:9px; }
+.quote-table th { background:#173b5a; padding:10px 8px; letter-spacing:.04em; }
+.quote-table td { padding:11px 8px; }
+.quote-total-card { margin-top:14px; border-radius:10px; background:#173b5a; padding:14px 16px; }
+.quote-total-card > div span { color:#fff; font-size:20px; }
+.quote-total-card > div small { color:#c5d7e5; }
+.quote-total-card > strong { background:#2196f3; padding:12px 20px; font-size:22px; }
+.quote-footer { margin-top:19px; padding-top:12px; }
+@media (max-width:700px) {
+  .quote-header { min-height:92px; gap:8px; padding-bottom:13px; }
+  .quote-brand-lockup img { width:125px; height:36px; }
+  .quote-brand-lockup span { font-size:16px; }
+  .quote-document-title > span { font-size:7px; letter-spacing:.1em; }
+  .quote-document-title h1 { font-size:22px; }
+  .quote-document-title p { font-size:8px; }
+  .quote-meta-grid { margin:11px 0 9px; }
+  .quote-meta-grid > div { padding:0 7px; }
+  .quote-meta-grid strong { font-size:10px; }
+  .quote-info-grid { margin-bottom:14px; }
+  .quote-section-head { display:block; }
+  .quote-section-head p { text-align:left; }
 }

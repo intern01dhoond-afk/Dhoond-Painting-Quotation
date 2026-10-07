@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css?v=20261007-back-button" />
 </head>
 <body class="flex justify-center min-h-screen text-gray-800 antialiased">
 <!-- Partner start flow: shown after splash screen -->
@@ -52,7 +52,7 @@
       </div>
 
       <div id="scopeStep" class="start-step">
-        <button type="button" onclick="backToCustomerStep()" class="text-gray-500 hover:text-gray-800 text-xs font-semibold mb-4">
+        <button type="button" onclick="backToCustomerStep()" class="start-back-button text-gray-500 hover:text-gray-800 text-xs font-semibold" aria-label="Back to customer details">
           <i class="fa-solid fa-arrow-left mr-1"></i> Back
         </button>
 
@@ -444,17 +444,17 @@
         </div>
 
         <div class="quote-sheet custom-scrollbar">
-          <div class="quote-brand-banner">
-            <img src="assets/images/dhoond-logo-black.png" alt="Dhoond" />
-            <p>Kar toh Dekho!</p>
-          </div>
-          <div class="quote-hero">
-            <div class="quote-brand">
-              <h1>PAINTING<br/><span>QUOTATION</span></h1>
-              <p>Interior Painting <b>•</b> Vacant House</p>
+          <header class="quote-header">
+            <div class="quote-brand-lockup">
+              <img src="assets/images/dhoond-logo-black.png" alt="Dhoond" />
+              <span>Kar toh Dekho!</span>
             </div>
-            <div class="quote-room-art"><img src="assets/images/quote-room.svg" alt="Living room" /></div>
-          </div>
+            <div class="quote-document-title">
+              <span>YOUR HOME, REFRESHED</span>
+              <h1>Painting<br/><strong>Quotation</strong></h1>
+              <p>Prepared with care by Dhoond</p>
+            </div>
+          </header>
 
           <div class="quote-meta-grid">
             <div><span>Quotation No.</span><strong id="previewQuotationNo">QTN-2026-00125</strong></div>
@@ -464,7 +464,7 @@
 
           <div class="quote-info-grid">
             <div><span>CUSTOMER</span><strong id="previewCustomer">Henanthr</strong><small id="previewMobile">7204948579</small></div>
-            <div><span>SERVICE</span><strong id="previewService">Interior Painting</strong><small id="previewStatus">Vacant House</small></div>
+            <div><span>PROJECT TYPE</span><strong id="previewService">Interior Painting</strong><small id="previewStatus">Vacant House</small></div>
           </div>
 
           <div class="quote-section-head">
