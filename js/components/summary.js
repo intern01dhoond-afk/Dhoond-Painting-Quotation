@@ -20,6 +20,10 @@ function previewNumberToWordsIndian(num) {
   return parts.join(' ');
 }
 
+function previewFormatDate(date = new Date()) {
+  return date.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
 function getPreviewQuoteData() {
   let total = 0;
   const quoteRooms = rooms.map((r, index) => {
@@ -51,12 +55,14 @@ function toggleSummaryModal(show) {
   if (!show) { modal.classList.add('hidden'); return; }
 
   const quote = getPreviewQuoteData();
-  const quotationNo = (() => {
+  const quotationNo = window.__dhoondQuotationNumber || (() => {
     try { return getQuotationNumber(); } catch (_) { return 'QTN-2026-00125'; }
   })();
+  window.__dhoondQuotationNumber = quotationNo;
+  window.__dhoondPreviewQuote = { ...quote, quotationNo, date: formatDate() };
 
   document.getElementById('previewQuotationNo').textContent = quotationNo;
-  document.getElementById('previewDate').textContent = formatDate();
+  document.getElementById('previewDate').textContent = window.__dhoondPreviewQuote.date;
   document.getElementById('previewProperty').textContent = quote.propertyStatus;
   document.getElementById('previewCustomer').textContent = quote.customerName;
   document.getElementById('previewMobile').textContent = quote.customerMobile;

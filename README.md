@@ -1,6 +1,15 @@
-# Dhoond Partner Painting Quotation
+# Dhoond Painting Quotation
 
-Updated quotation app with a clean, branded one-page customer PDF using the supplied Dhoond logo.
+## What was fixed
+
+- The customer preview is now the **single source of truth** for the customer PDF.
+- Downloaded/shared PDFs are rendered from the same quotation-preview DOM and CSS, instead of a separate PDF layout.
+- The quotation data shown in Preview is reused for the PDF, preventing the PDF from falling back to zero/default room values.
+- Quotation number is reused between Preview, Download and Send so they refer to the same quote.
+- Indian Rupee (`₹`) rendering is handled by the browser renderer rather than jsPDF's Helvetica font, avoiding the previous `¹` character problem.
+- Added **Download PDF** and **Send Quote** actions to the customer preview toolbar.
+- Mobile sharing uses the native share sheet with the PDF file attached when supported.
+- Desktop WhatsApp Web still cannot receive an automatically attached local file from a normal browser; the exact PDF is downloaded and WhatsApp is opened with the prepared message.
 
 ## Run locally
 
@@ -12,11 +21,6 @@ Then open:
 
 `http://localhost:5500`
 
-## PDF + WhatsApp behavior
+## Important
 
-- The customer-facing PDF is generated in a clean Dhoond-branded layout.
-- On supported mobile browsers, **Send Quote** uses the native share sheet with the PDF already attached. Select WhatsApp and send it; the user does not need to browse Downloads.
-- On desktop browsers, normal web security prevents a webpage from silently attaching a local PDF to WhatsApp Web. The app therefore downloads the PDF and opens the WhatsApp chat as a fallback.
-- Fully automatic sending without any user attachment/share step requires a server-side WhatsApp Business/Cloud API integration with the appropriate credentials and customer opt-in.
-
-The supplied Dhoond logo is stored at `assets/images/dhoond-logo.png`.
+The PDF renderer uses `html2canvas` and `jsPDF` from CDN. An internet connection is required when first loading the page unless those libraries are self-hosted.

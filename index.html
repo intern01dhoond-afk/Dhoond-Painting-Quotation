@@ -419,7 +419,11 @@
             <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-white/70">Customer Preview</p>
             <p class="text-sm font-bold text-white">Dhoond Painting Quotation</p>
           </div>
-          <button onclick="toggleSummaryModal(false)" class="quote-preview-close" aria-label="Close preview"><i class="fa-solid fa-xmark"></i></button>
+          <div class="quote-preview-actions">
+            <button onclick="downloadQuotationPdf()" class="quote-preview-action quote-preview-download" aria-label="Download quotation PDF"><i class="fa-solid fa-download"></i><span>Download PDF</span></button>
+            <button onclick="shareWhatsApp()" class="quote-preview-action quote-preview-send" aria-label="Send quotation"><i class="fa-brands fa-whatsapp"></i><span>Send Quote</span></button>
+            <button onclick="toggleSummaryModal(false)" class="quote-preview-close" aria-label="Close preview"><i class="fa-solid fa-xmark"></i></button>
+          </div>
         </div>
 
         <div class="quote-sheet custom-scrollbar">
@@ -472,6 +476,7 @@
 
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="js/data/packages.js"></script>
   <script src="js/data/addons.js"></script>
   <script src="js/state/store.js"></script>
