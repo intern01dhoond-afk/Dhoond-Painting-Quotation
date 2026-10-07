@@ -118,7 +118,7 @@ function renderActiveRoom() {
       const totalAddonCost = (selectedDoor.sqftRate > 0 ? totalDoorCost : 0) + (selectedGrill.sqftRate > 0 ? totalGrillCost : 0) + customAddonCost;
       const totalRoomCost = paintingCost + totalAddonCost;
 
-      let subtotalDetail = `${room.area} sq.ft × ₹${pkg.rate + room.puttyRate}/sq.ft`;
+      let subtotalDetail = room.area === '' ? `Enter area × ₹${pkg.rate + room.puttyRate}/sq.ft` : `${room.area} sq.ft × ₹${pkg.rate + room.puttyRate}/sq.ft`;
       if (totalAddonCost > 0) {
         subtotalDetail += ` + ₹${totalAddonCost.toLocaleString('en-IN')} add-ons`;
       }
@@ -259,13 +259,13 @@ function selectAddonOption(id) {
 
 
 function updateRoomArea(val) {
-      rooms[activeRoomIndex].area = Math.max(0, parseInt(val) || 0);
+      rooms[activeRoomIndex].area = val === '' ? '' : Math.max(0, parseInt(val) || 0);
       renderActiveRoom();
     }
 
 
 function adjustArea(delta) {
-      rooms[activeRoomIndex].area = Math.max(0, rooms[activeRoomIndex].area + delta);
+      rooms[activeRoomIndex].area = Math.max(0, (Number(rooms[activeRoomIndex].area) || 0) + delta);
       renderActiveRoom();
     }
 
@@ -376,7 +376,7 @@ function addNewRoomPrompt() {
       if (name && name.trim()) {
         rooms.push({
           name: name.trim(),
-          area: 250,
+          area: '',
           packageIndex: rooms[activeRoomIndex].packageIndex,
           puttyRate: 0,
           doorSelection: { id: null, width: 3, height: 7, isCustom: false, qty: 1 },

@@ -10,7 +10,7 @@
     let rooms = [
       { 
         name: "Master Bedroom", 
-        area: 300, 
+        area: '',
         packageIndex: 6, // Premium - Single Coat - With Primer (₹18)
         puttyRate: 0,
         customAddon: { name: '', price: 0 },
@@ -19,7 +19,7 @@
       },
       { 
         name: "Living Room", 
-        area: 450, 
+        area: '',
         packageIndex: 6, 
         puttyRate: 0,
         customAddon: { name: '', price: 0 },
@@ -28,7 +28,7 @@
       },
       { 
         name: "Kitchen", 
-        area: 160, 
+        area: '',
         packageIndex: 1, 
         puttyRate: 0,
         customAddon: { name: '', price: 0 },
