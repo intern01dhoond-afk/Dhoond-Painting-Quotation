@@ -11,7 +11,7 @@ body {
       border-radius: 9999px;
     }
   
-    /* Splash screen — original SVG is used without modification */
+    /* Partner-branded splash artwork */
     #svgSplashScreen {
       position: fixed;
       inset: 0;
@@ -65,7 +65,7 @@ body {
     }
 
     .site-brand-banner { display:flex; flex-direction:column; align-items:center; margin:0 auto 24px; }
-    .site-brand-banner img { width:min(245px,78%); height:auto; filter:brightness(0); }
+    .site-brand-banner img { width:min(245px,78%); height:auto; }
     .site-brand-banner span { margin:-2px 0 0 76px; color:#111; font:700 27px/1 'Caveat',cursive; transform:rotate(-3deg); }
 
     #partnerStartCard h2 {
@@ -142,7 +142,7 @@ button[onclick="shareWhatsApp()"]:disabled {
 .quote-preview-actions{display:flex;align-items:center;gap:7px}.quote-preview-action{height:34px;border:0;border-radius:9px;padding:0 11px;display:flex;align-items:center;gap:7px;font-size:11px;font-weight:800;cursor:pointer}.quote-preview-download{background:#2196f3;color:#fff}.quote-preview-send{background:#10b981;color:#fff}.quote-preview-close { width:34px;height:34px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:white;display:flex;align-items:center;justify-content:center; }
 .quote-sheet { background:#fff; overflow:auto; padding:28px 30px 22px; color:#12243a; font-family:Arial,Helvetica,sans-serif; }
 .quote-brand-banner { min-height:150px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; padding:8px 12px 14px; overflow:hidden; }
-.quote-brand-banner img { width:min(340px,68%); height:auto; display:block; filter:brightness(0); }
+.quote-brand-banner img { width:min(340px,68%); height:auto; display:block; }
 .quote-brand-banner p { margin:-2px 0 0 110px; color:#111; font-family:'Caveat',cursive; font-size:34px; font-weight:700; line-height:1; transform:rotate(-3deg); }
 .quote-hero { display:grid; grid-template-columns:1.02fr .98fr; min-height:255px; border-bottom:1px solid #dce5ec; overflow:hidden; }
 .quote-brand { position:relative; padding:5px 14px 22px 5px; }
