@@ -24,7 +24,6 @@ function goToPaintScope() {
       customerName = name;
       customerMobile = mobile;
       error.classList.add('hidden');
-      savePartnerSession();
 
       document.getElementById('customerWelcome').innerText = `Customer: ${customerName} • ${customerMobile}`;
       document.getElementById('customerStep').classList.remove('active');
@@ -57,10 +56,6 @@ function backToPaintScopeSelection() {
 function selectPaintScope(scope) {
       paintScope = scope;
       PACKAGES = currentPackages();
-
-      if (customerName && customerMobile) {
-        savePartnerSession();
-      }
 
       document.getElementById('interiorOption').classList.toggle('selected', scope === 'interior');
       document.getElementById('exteriorOption').classList.toggle('selected', scope === 'exterior');
