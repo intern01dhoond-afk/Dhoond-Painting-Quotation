@@ -28,7 +28,9 @@ function getPreviewQuoteData() {
   let total = 0;
   const quoteRooms = rooms.map((r, index) => {
     const pkg = PACKAGES[r.packageIndex];
-    const paintCost = pkg ? r.area * (pkg.rate + r.puttyRate) : 0;
+    const area = Number(r.area) || 0;
+    const hasArea = area > 0;
+    const paintCost = pkg && hasArea ? area * (pkg.rate + r.puttyRate) : 0;
     let addonCost = 0;
     const addons = [];
     const d = ADDON_CATALOG.door.find(x => x.id === r.doorSelection.id);
@@ -49,11 +51,40 @@ function getPreviewQuoteData() {
       addonCost += customAddonPrice;
       addons.push({ label: customAddon.name, detail: 'Custom add-on', amount: customAddonPrice });
     }
-    const row = { index:index+1, name:r.name, area:r.area, pkg:pkg ? pkg.name : 'Package not selected', rate:pkg ? pkg.rate + r.puttyRate : 0, amount:paintCost, addons };
+    const row = {
+      index: index + 1,
+      name: r.name,
+      area,
+      hasArea,
+      pkg: pkg ? pkg.name : '',
+      rate: pkg ? pkg.rate + r.puttyRate : 0,
+      amount: paintCost,
+      addons
+    };
     total += paintCost + addonCost;
     return row;
   });
-  return { quoteRooms, total, customerName:customerName || 'Customer', customerMobile:customerMobile || '-', scope:paintScope === 'interior' ? 'Interior Painting' : 'Exterior Painting', propertyStatus:isVacant ? 'Vacant House' : 'Occupied / Furnished' };
+  return {
+    quoteRooms,
+    total,
+    customerName: String(customerName || '').trim(),
+    customerMobile: String(customerMobile || '').trim(),
+    customerAddress: String(customerAddress || '').trim(),
+    siteAddress: String(siteAddress || '').trim(),
+    scope: paintScope === 'interior' ? 'Interior Painting' : 'Exterior Painting',
+    propertyStatus: isVacant ? 'Vacant House' : 'Occupied / Furnished'
+  };
+}
+
+function setPreviewField(id, value) {
+  const field = document.getElementById(id);
+  const text = String(value || '').trim();
+  field.textContent = text;
+
+  const row = field.closest('.quote-info-row');
+  if (row) row.hidden = !text;
+
+  return Boolean(text);
 }
 
 function toggleSummaryModal(show) {
@@ -70,25 +101,52 @@ function toggleSummaryModal(show) {
   document.getElementById('previewQuotationNo').textContent = quotationNo;
   document.getElementById('previewDate').textContent = window.__dhoondPreviewQuote.date;
   document.getElementById('previewProperty').textContent = quote.propertyStatus;
-  document.getElementById('previewCustomer').textContent = quote.customerName;
-  document.getElementById('previewMobile').textContent = quote.customerMobile;
-  document.getElementById('previewService').textContent = quote.scope;
-  document.getElementById('previewStatus').textContent = quote.propertyStatus;
-  document.getElementById('previewFooterMobile').textContent = quote.customerMobile;
-  document.getElementById('previewTotal').textContent = formatIndianMoney(quote.total);
-  document.getElementById('previewTotalWords').textContent = `${previewNumberToWordsIndian(quote.total)} Rupees Only`;
+  const hasCustomerName = setPreviewField('previewCustomer', quote.customerName);
+  const hasCustomerMobile = setPreviewField('previewMobile', quote.customerMobile);
+  const hasCustomerAddress = setPreviewField('previewCustomerAddress', quote.customerAddress);
+  const hasService = setPreviewField('previewService', quote.scope);
+  const hasPropertyStatus = setPreviewField('previewStatus', quote.propertyStatus);
+  const hasSiteAddress = setPreviewField('previewSiteAddress', quote.siteAddress);
 
-  document.getElementById('previewRows').innerHTML = quote.quoteRooms.map(room => `
+  const customerBlock = document.getElementById('previewCustomer').closest('.quote-info-block');
+  customerBlock.hidden = !hasCustomerName && !hasCustomerMobile && !hasCustomerAddress;
+  const serviceBlock = document.getElementById('previewService').closest('.quote-info-block');
+  serviceBlock.hidden = !hasService && !hasPropertyStatus && !hasSiteAddress;
+  const infoGrid = customerBlock.parentElement;
+  const visibleInfoBlocks = Array.from(infoGrid.querySelectorAll('.quote-info-block')).filter(block => !block.hidden);
+  infoGrid.classList.toggle('has-one-info-block', visibleInfoBlocks.length === 1);
+  infoGrid.hidden = visibleInfoBlocks.length === 0;
+
+  const footerMobile = document.getElementById('previewFooterMobile');
+  footerMobile.textContent = quote.customerMobile;
+  footerMobile.closest('span').hidden = !quote.customerMobile;
+  document.getElementById('previewTotal').textContent = formatIndianMoney(quote.total);
+  document.getElementById('previewTotalWords').textContent = 'Inclusive of all applicable charges';
+
+  const visibleRooms = quote.quoteRooms.filter(room =>
+    (room.hasArea && room.pkg) || room.addons.length > 0
+  );
+
+  document.getElementById('previewRows').innerHTML = visibleRooms.map((room, index) => {
+    const hasPaintLine = room.hasArea && room.pkg;
+    return `
     <tr>
-      <td>${room.index}</td>
-      <td><div class="quote-room-cell"><div><span class="quote-room-name">${room.name}</span><span class="quote-room-area">${room.area} sq.ft</span></div></div></td>
-      <td><div class="quote-package"><strong>${room.pkg.split(' - ')[0]}</strong><span>${room.pkg.split(' - ').slice(1).join(' · ')}</span></div></td>
-      <td>${room.area}<br><span style="font-weight:400;color:#687b8c">sq.ft</span></td>
-      <td>₹${room.rate}</td>
-      <td>${formatIndianMoney(room.amount)}</td>
+      <td>${index + 1}</td>
+      <td><div class="quote-room-cell"><div><span class="quote-room-name">${room.name}</span>${room.hasArea ? `<span class="quote-room-area">${room.area} sq.ft</span>` : ''}</div></div></td>
+      <td>${hasPaintLine ? `<div class="quote-package"><strong>${room.pkg.split(' - ')[0]}</strong><span>${room.pkg.split(' - ').slice(1).join(' · ')}</span></div>` : ''}</td>
+      <td>${room.hasArea ? `${room.area}<br><span style="font-weight:400;color:#687b8c">sq.ft</span>` : ''}</td>
+      <td>${hasPaintLine ? `₹${room.rate}` : ''}</td>
+      <td>${hasPaintLine ? formatIndianMoney(room.amount) : ''}</td>
     </tr>
     ${room.addons.map(a => `<tr class="quote-addon-row"><td></td><td></td><td colspan="2"><span style="font-weight:800">${a.label}</span> <span style="color:#687b8c">${a.detail}</span></td><td></td><td>${formatIndianMoney(a.amount)}</td></tr>`).join('')}
-  `).join('');
+  `;
+  }).join('');
+
+  const hasQuotedItems = visibleRooms.length > 0;
+  document.querySelector('.official-section-head').hidden = !hasQuotedItems;
+  document.querySelector('.official-table-wrap').hidden = !hasQuotedItems;
+  document.getElementById('previewTableHint').hidden = !hasQuotedItems;
+  document.querySelector('.official-total-card').hidden = !hasQuotedItems;
 
   modal.classList.remove('hidden');
 }

@@ -262,6 +262,10 @@ button[onclick="shareWhatsApp()"]:disabled {
   font-family: "Montserrat", Arial, sans-serif;
 }
 
+.quote-sheet [hidden] {
+  display: none !important;
+}
+
 
 /* ---------------------------------------------------------
    HEADER
@@ -1113,4 +1117,117 @@ button[onclick="shareWhatsApp()"]:disabled {
     text-align: left;
   }
 
+}
+
+/* Final quotation composition overrides (kept after the legacy preview rules). */
+.quote-sheet { padding:18px 22px 16px; color:#101d35; }
+.quote-sheet .official-quote-header { grid-template-columns:1fr 1.08fr; gap:0; min-height:0; height:230px; padding:0; overflow:hidden; border:0; }
+.quote-hero-copy { display:flex; flex-direction:column; justify-content:center; gap:20px; min-width:0; padding:14px 10px; }
+.quote-sheet .quote-brand-lockup img { width:205px; height:auto; }
+.quote-sheet .quote-brand-lockup span { margin:0 0 0 70px; font-size:21px; }
+.quote-sheet .quote-document-title { text-align:left; }
+.quote-sheet .quote-document-title h1 { font-size:42px; line-height:.96; letter-spacing:-1.5px; }
+.quote-sheet .quote-document-title h1 strong { display:block; }
+.quote-sheet .quote-document-title p { margin-top:12px; font-size:11px; white-space:nowrap; }
+.quote-document-title p b,.hero-service-copy b { color:#8795a2; font-weight:400; padding:0 4px; }
+.quote-hero-art { position:relative; align-self:stretch; overflow:hidden; background:#e9e6e0; border-radius:0 0 0 44px; }
+.quote-hero-art::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(244,243,240,.25),transparent 48%); pointer-events:none; }
+.quote-hero-art img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; }
+.hero-service-copy { position:absolute; z-index:1; top:20px; right:18px; display:grid; gap:12px; color:#fff; font-size:12px; letter-spacing:.04em; text-shadow:0 1px 3px rgba(0,0,0,.35); }
+.hero-service-copy > span::after { content:""; display:block; width:30px; height:3px; margin-top:8px; background:#fff; }
+.hero-service-copy strong { font-size:12px; line-height:1.4; font-weight:500; }
+.quote-sheet .official-meta-grid { grid-template-columns:repeat(3,1fr); margin:10px 0 9px; border:0; border-radius:7px; background:#edf3f7; }
+.quote-sheet .official-meta-grid > div { display:flex; flex-direction:column; justify-content:center; padding:11px 16px; border-color:#b9c6d1; }
+.quote-sheet .official-meta-grid > div { position:relative; padding-left:66px; }
+.quote-sheet .official-meta-grid > div i { position:absolute; left:15px; top:50%; transform:translateY(-50%); display:grid; place-items:center; width:40px; height:40px; border-radius:50%; background:#dfe8ef; color:#14243d; font-size:17px; }
+.quote-sheet .official-meta-grid span { font-size:10px; font-weight:500; letter-spacing:0; text-transform:none; color:#566a7c; }
+.quote-sheet .official-meta-grid strong { font-size:14px; }
+.quote-sheet .official-info-grid { grid-template-columns:1fr 1fr; margin:0 0 14px; padding:12px 15px; border:1px solid #e0e7ec; border-left:3px solid #278ed1; border-radius:8px; }
+.quote-sheet .official-info-grid.has-one-info-block { grid-template-columns:1fr; }
+.quote-sheet .official-info-grid.has-one-info-block .quote-info-block { grid-column:1; border:0; padding-left:0; }
+.quote-sheet .quote-info-block + .quote-info-block { border-left:1px solid #dfe6ec; padding-left:18px; }
+.quote-sheet .quote-info-heading { position:relative; min-height:32px; margin-bottom:4px; padding-left:44px; display:flex; align-items:center; font-size:10px; font-weight:700; text-transform:none; letter-spacing:0; color:#203b55; }
+.quote-sheet .quote-info-heading i { position:absolute; left:0; top:0; display:grid; place-items:center; width:34px; height:34px; border-radius:50%; background:#e5edf3; color:#18283e; font-size:15px; }
+.quote-sheet .quote-info-row { padding:2px 0 2px 44px; }
+.quote-sheet .quote-info-row > span { font-size:10px; color:#64778a; }
+.quote-sheet .quote-info-grid strong { font-size:12px; }
+.quote-sheet .official-section-head { margin-bottom:5px; }
+.quote-sheet .quote-table-hint { display:none; }
+.quote-sheet .official-section-head h2 { font-family:Georgia,serif; font-size:25px; font-weight:700; }
+.quote-sheet .official-section-head p { font-size:10px; }
+.quote-sheet .official-table-wrap { border:1px solid #d7e0e7; border-radius:7px 7px 0 0; }
+.quote-sheet .official-quote-table { table-layout:fixed; }
+.quote-sheet .official-quote-table th { padding:8px 7px; background:#294b66; font-size:10px; letter-spacing:0; }
+.quote-sheet .official-quote-table td { padding:8px 7px; font-size:10px; }
+.quote-sheet .official-total-card { margin-top:0; padding:11px 15px; border-radius:0 0 7px 7px; background:#dfe8ef; }
+.quote-sheet .official-total-card > div span { color:#101d35; font-family:Georgia,serif; font-size:22px; font-weight:700; }
+.quote-sheet .official-total-card > div small { color:#42566b; }
+.quote-sheet .official-total-card > strong { background:#294b66; font-size:22px; }
+.quote-sheet .quotation-policy-section { margin:10px 0; }
+.quote-sheet .quotation-policy-box { padding:12px 14px; border:0; border-radius:6px; background:#f1f5f2; }
+.quote-sheet .quotation-policy-box:nth-child(2) { background:#f7f2f2; }
+.quote-sheet .quotation-policy-heading { margin-bottom:6px; }
+.quote-sheet .quotation-policy-heading h3 { font-size:17px; }
+.quote-sheet .quotation-policy-box li { margin:4px 0; font-size:11px; line-height:1.4; color:#263546; }
+.quote-sheet .quotation-commercial-section { margin:14px 0 14px; }
+.quote-sheet .commercial-grid { gap:9px; }
+.quote-sheet .commercial-box { padding:10px 11px; border-radius:6px; }
+.quote-sheet .commercial-heading { margin-bottom:5px; }
+.quote-sheet .commercial-heading h3 { font-size:12px; }
+.quote-sheet .commercial-box li { margin:4px 0; font-size:10.5px; line-height:1.4; }
+.quote-sheet .quote-footer-terms { margin:14px 10px 0; padding-top:9px; border-top:1px solid #dce2e8; color:#687789; font-size:9.5px; line-height:1.45; }
+.quote-sheet .official-quote-footer { grid-template-columns:1fr 1.2fr 1fr; margin:0; padding:11px 10px 3px; gap:12px; }
+.quote-sheet .quote-footer-contact { border-left:1px solid #c8d2db; padding-left:16px; gap:4px; font-size:8px; }
+.quote-sheet .quote-thanks { border-left:1px solid #c8d2db; padding-left:12px; }
+.quote-sheet [hidden] { display:none !important; }
+@media (max-width:700px) {
+  .quote-sheet { padding:14px 12px; }
+  .quote-sheet .official-quote-header { grid-template-columns:1fr; height:auto; }
+  .quote-hero-copy { gap:12px; padding:14px 2px 18px; }
+  .quote-sheet .quote-brand-lockup img { width:160px; }
+  .quote-sheet .quote-brand-lockup span { margin-left:55px; font-size:17px; }
+  .quote-sheet .quote-document-title h1 { font-size:33px; }
+  .quote-sheet .quote-document-title p { white-space:normal; font-size:9px; }
+  .quote-hero-art { min-height:175px; border-radius:0 0 0 30px; }
+  .hero-service-copy { top:12px; right:12px; font-size:10px; }
+  .quote-sheet .official-meta-grid { grid-template-columns:1fr; }
+  .quote-sheet .official-meta-grid { grid-template-columns:1fr; }
+  .quote-sheet .official-meta-grid > div { display:grid; grid-template-columns:38px 1fr; grid-template-rows:auto auto; align-items:center; column-gap:10px; min-height:58px; padding:7px 10px; border-right:0; border-bottom:1px solid #b9c6d1; }
+  .quote-sheet .official-meta-grid > div i { position:static; grid-row:1 / 3; transform:none; width:34px; height:34px; margin:0; font-size:14px; }
+  .quote-sheet .official-meta-grid > div:last-child { border-bottom:0; }
+  .quote-sheet .official-meta-grid span { align-self:end; font-size:10px; }
+  .quote-sheet .official-meta-grid strong { align-self:start; font-size:12px; overflow-wrap:anywhere; }
+  .quote-sheet .official-meta-grid > div:last-child { border-right:0; }
+  .quote-sheet .official-meta-grid span { font-size:8px; }
+  .quote-sheet .official-meta-grid strong { font-size:9px; overflow-wrap:anywhere; }
+  .quote-sheet .official-info-grid { grid-template-columns:1fr; gap:10px; padding:12px; }
+  .quote-sheet .quote-info-block + .quote-info-block { border-top:1px solid #dfe6ec; border-left:0; padding:10px 0 0; }
+  .quote-sheet .official-info-grid.has-one-info-block { grid-template-columns:1fr; }
+  .quote-sheet .official-info-grid.has-one-info-block .quote-info-block { grid-column:1; border:0; padding:0; }
+  .quote-sheet .quote-info-heading { min-height:34px; padding-left:44px; font-size:12px; }
+  .quote-sheet .quote-info-heading i { width:34px; height:34px; font-size:14px; }
+  .quote-sheet .quote-info-row { padding:3px 0 3px 44px; }
+  .quote-sheet .official-section-head,.quote-sheet .official-table-wrap,.quote-sheet .official-total-card,.quote-sheet .quotation-policy-section,.quote-sheet .quotation-commercial-section,.quote-sheet .quotation-terms-section,.quote-sheet .official-quote-footer { margin-left:0; margin-right:0; }
+  .quote-sheet .official-section-head h2 { font-size:20px; }
+  .quote-sheet .official-section-head p { font-size:8px; }
+  .quote-sheet .official-table-wrap { max-width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+  .quote-sheet .quote-table-hint { display:block; margin:0 0 6px; color:#607080; font-size:11px; }
+  .quote-sheet .official-quote-table { min-width:680px; }
+  .quote-sheet .official-quote-table th { padding:10px 8px; font-size:12px; }
+  .quote-sheet .official-quote-table td { padding:10px 8px; font-size:12px; }
+  .quote-sheet .quote-room-name { font-size:12px; }
+  .quote-sheet .quote-room-area,.quote-sheet .quote-package span { font-size:11px; }
+  .quote-sheet .quote-package strong { font-size:12px; }
+  .quote-sheet .quotation-policy-grid { grid-template-columns:1fr; gap:10px; }
+  .quote-sheet .quotation-policy-box { padding:13px; }
+  .quote-sheet .quotation-policy-heading h3 { font-size:17px; }
+  .quote-sheet .quotation-policy-box li { font-size:12px; line-height:1.45; }
+  .quote-sheet .commercial-grid { grid-template-columns:1fr; }
+  .quote-sheet .commercial-box:last-child { grid-column:auto; }
+  .quote-sheet .commercial-box { padding:13px; }
+  .quote-sheet .commercial-heading h3 { font-size:15px; }
+  .quote-sheet .commercial-box li { font-size:12px; line-height:1.45; }
+  .quote-sheet .quote-footer-terms { margin:12px 0 0; padding-top:9px; font-size:11px; line-height:1.45; }
+  .quote-sheet .official-quote-footer { grid-template-columns:1fr 1fr; }
+  .quote-sheet .quote-thanks { grid-column:1/-1; border:0; padding:0; align-items:flex-end; }
 }

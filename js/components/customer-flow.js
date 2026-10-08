@@ -23,6 +23,8 @@ function goToPaintScope() {
 
       customerName = name;
       customerMobile = mobile;
+      customerAddress = document.getElementById('customerAddressInput').value.trim();
+      siteAddress = document.getElementById('siteAddressInput').value.trim();
       error.classList.add('hidden');
 
       document.getElementById('customerWelcome').innerText = `Customer: ${customerName} • ${customerMobile}`;

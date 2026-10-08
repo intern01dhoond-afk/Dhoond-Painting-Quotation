@@ -522,7 +522,7 @@ function injectPdfStyles() {
       color: #172033 !important;
 
       font-family:
-        Inter,
+        "Montserrat",
         "Segoe UI",
         Arial,
         sans-serif !important;
@@ -812,7 +812,7 @@ function prepareQuotationClone(clone) {
   clone.style.overflow = 'visible';
 
   clone.style.padding =
-    '28px 30px 24px';
+    '18px 22px 16px';
 
   clone.style.boxSizing =
     'border-box';

@@ -6,6 +6,8 @@
     let paintScope = 'interior';
     let customerName = '';
     let customerMobile = '';
+    let customerAddress = '';
+    let siteAddress = '';
 
     let rooms = [
       { 

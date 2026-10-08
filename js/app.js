@@ -7,11 +7,17 @@ function resetCustomerEntry() {
 
   const nameInput = document.getElementById('customerNameInput');
   const mobileInput = document.getElementById('customerMobileInput');
+  const customerAddressInput = document.getElementById('customerAddressInput');
+  const siteAddressInput = document.getElementById('siteAddressInput');
   if (nameInput) nameInput.value = '';
   if (mobileInput) mobileInput.value = '';
+  if (customerAddressInput) customerAddressInput.value = '';
+  if (siteAddressInput) siteAddressInput.value = '';
 
   customerName = '';
   customerMobile = '';
+  customerAddress = '';
+  siteAddress = '';
 }
 
 // Clear browser-restored form values on both a normal open and a back/forward-cache restore.
