@@ -251,3 +251,866 @@ button[onclick="shareWhatsApp()"]:disabled {
   .quote-section-head { display:block; }
   .quote-section-head p { text-align:left; }
 }
+
+/* =========================================================
+   OFFICIAL DHOOND QUOTATION
+========================================================= */
+
+.quote-sheet {
+  background: #ffffff;
+  color: #172033;
+  font-family: "Montserrat", Arial, sans-serif;
+}
+
+
+/* ---------------------------------------------------------
+   HEADER
+--------------------------------------------------------- */
+
+.official-quote-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+  align-items: center;
+
+  padding: 34px 36px 28px;
+
+  border-bottom: 1px solid #dfe5eb;
+}
+
+
+.quote-brand-lockup {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+
+.quote-brand-lockup img {
+  width: 175px;
+  height: auto;
+  object-fit: contain;
+}
+
+
+.quote-brand-lockup span {
+  margin-top: 5px;
+
+  font-family: "Caveat", cursive;
+
+  font-size: 17px;
+  font-weight: 600;
+
+  color: #172033;
+}
+
+
+.quote-document-title {
+  text-align: right;
+}
+
+
+.quote-eyebrow {
+  display: block;
+
+  margin-bottom: 8px;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 1.7px;
+
+  color: #607080;
+}
+
+
+.quote-document-title h1 {
+  margin: 0;
+
+  font-size: 30px;
+  line-height: 1.02;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  color: #172033;
+}
+
+
+.quote-document-title h1 strong {
+  display: block;
+
+  color: #1678c8;
+
+  font-weight: 800;
+}
+
+
+.quote-document-title p {
+  margin: 10px 0 0;
+
+  font-size: 9px;
+
+  color: #697586;
+}
+
+
+
+/* ---------------------------------------------------------
+   META
+--------------------------------------------------------- */
+
+.official-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  margin: 22px 36px 12px;
+
+  border: 1px solid #dfe5eb;
+
+  background: #f7f9fb;
+}
+
+
+.official-meta-grid > div {
+  padding: 13px 16px;
+
+  border-right: 1px solid #dfe5eb;
+}
+
+
+.official-meta-grid > div:last-child {
+  border-right: none;
+}
+
+
+.official-meta-grid span {
+  display: block;
+
+  margin-bottom: 5px;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: #687687;
+}
+
+
+.official-meta-grid strong {
+  display: block;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #172033;
+}
+
+
+
+/* ---------------------------------------------------------
+   CUSTOMER / PROJECT INFO
+--------------------------------------------------------- */
+
+.official-info-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 12px;
+
+  margin: 0 36px 25px;
+}
+
+
+.quote-info-block {
+  padding: 16px 18px;
+
+  border: 1px solid #dfe5eb;
+
+  background: #ffffff;
+}
+
+
+.quote-info-heading {
+  margin-bottom: 12px;
+
+  font-size: 9px;
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  color: #172033;
+}
+
+
+.quote-info-row {
+  display: grid;
+
+  grid-template-columns: 105px 1fr;
+
+  gap: 10px;
+
+  margin: 6px 0;
+}
+
+
+.quote-info-row span {
+  font-size: 9px;
+
+  color: #7a8795;
+}
+
+
+.quote-info-row strong {
+  font-size: 9.5px;
+
+  color: #172033;
+}
+
+
+
+/* ---------------------------------------------------------
+   SECTION HEADINGS
+--------------------------------------------------------- */
+
+.official-section-head {
+  margin: 0 36px 10px;
+}
+
+
+.official-section-head h2 {
+  margin: 0;
+
+  font-family: Georgia, serif;
+
+  font-size: 20px;
+
+  font-weight: 700;
+
+  color: #172033;
+}
+
+
+.official-section-head p {
+  margin: 3px 0 0;
+
+  font-size: 8.5px;
+
+  color: #758294;
+}
+
+
+
+/* ---------------------------------------------------------
+   TABLE
+--------------------------------------------------------- */
+
+.official-table-wrap {
+  margin: 0 36px;
+
+  border: 1px solid #d9e0e7;
+
+  overflow: hidden;
+}
+
+
+.official-quote-table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  table-layout: fixed;
+}
+
+
+.official-quote-table thead {
+  background: #29475f;
+}
+
+
+.official-quote-table th {
+  padding: 10px 8px;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  text-align: left;
+
+  color: #ffffff;
+
+  border-right: 1px solid rgba(255,255,255,.18);
+}
+
+
+.official-quote-table td {
+  padding: 10px 8px;
+
+  font-size: 8.5px;
+
+  color: #344054;
+
+  border-bottom: 1px solid #e4e8ed;
+
+  vertical-align: middle;
+}
+
+
+.official-quote-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+
+.official-quote-table tbody tr:nth-child(even) {
+  background: #fafbfd;
+}
+
+
+.official-quote-table th:first-child,
+.official-quote-table td:first-child {
+  width: 38px;
+
+  text-align: center;
+}
+
+
+.official-quote-table th:nth-child(4),
+.official-quote-table td:nth-child(4) {
+  width: 75px;
+}
+
+
+.official-quote-table th:nth-child(5),
+.official-quote-table td:nth-child(5) {
+  width: 75px;
+}
+
+
+.official-quote-table th:last-child,
+.official-quote-table td:last-child {
+  width: 100px;
+
+  text-align: right;
+
+  font-weight: 700;
+}
+
+
+
+/* ---------------------------------------------------------
+   TOTAL
+--------------------------------------------------------- */
+
+.official-total-card {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  margin: 14px 36px 24px;
+
+  padding: 17px 20px;
+
+  background: #eef5fa;
+
+  border: 1px solid #d8e4ec;
+}
+
+
+.official-total-card span {
+  display: block;
+
+  font-family: Georgia, serif;
+
+  font-size: 17px;
+  font-weight: 700;
+
+  color: #172033;
+}
+
+
+.official-total-card small {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 7.5px;
+
+  color: #697586;
+}
+
+
+.official-total-card strong {
+  padding: 10px 18px;
+
+  min-width: 130px;
+
+  text-align: center;
+
+  background: #29475f;
+
+  color: #ffffff;
+
+  font-size: 17px;
+  font-weight: 800;
+}
+
+
+
+/* ---------------------------------------------------------
+   INCLUDED / EXCLUDED
+--------------------------------------------------------- */
+
+.quotation-policy-section {
+  margin: 0 36px 14px;
+}
+
+
+.quotation-policy-grid {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 12px;
+}
+
+
+.quotation-policy-box {
+  padding: 15px 17px;
+
+  border: 1px solid #dce2e8;
+
+  background: #ffffff;
+}
+
+
+.quotation-policy-heading {
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  margin-bottom: 10px;
+}
+
+
+.quotation-policy-heading h3 {
+  margin: 0;
+
+  font-family: Georgia, serif;
+
+  font-size: 13px;
+
+  color: #172033;
+}
+
+
+.policy-symbol {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 21px;
+  height: 21px;
+
+  border-radius: 50%;
+
+  font-size: 13px;
+  font-weight: 800;
+}
+
+
+.included-symbol {
+  background: #eaf4ee;
+
+  color: #237546;
+}
+
+
+.excluded-symbol {
+  background: #f3eeee;
+
+  color: #9a3c3c;
+}
+
+
+.quotation-policy-box ul,
+.commercial-box ul {
+  margin: 0;
+
+  padding-left: 16px;
+}
+
+
+.quotation-policy-box li,
+.commercial-box li {
+  margin: 4px 0;
+
+  font-size: 8.5px;
+
+  line-height: 1.45;
+
+  color: #4b5563;
+}
+
+
+
+/* ---------------------------------------------------------
+   COMMERCIAL TERMS
+--------------------------------------------------------- */
+
+.quotation-commercial-section {
+  margin: 0 36px 15px;
+}
+
+
+.commercial-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 10px;
+}
+
+
+.commercial-box {
+  padding: 14px;
+
+  border: 1px solid #dce2e8;
+
+  background: #ffffff;
+}
+
+
+.commercial-heading {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 9px;
+}
+
+
+.commercial-heading h3 {
+  margin: 0;
+
+  font-family: Georgia, serif;
+
+  font-size: 11px;
+
+  color: #172033;
+}
+
+
+.commercial-icon {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 21px;
+  height: 21px;
+
+  border-radius: 50%;
+
+  background: #eef3f7;
+
+  color: #29475f;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+
+
+/* ---------------------------------------------------------
+   TERMS
+--------------------------------------------------------- */
+
+.quotation-terms-section {
+  margin: 0 36px 18px;
+
+  padding-top: 11px;
+
+  border-top: 1px solid #dce2e8;
+}
+
+
+.quotation-terms-heading {
+  margin-bottom: 6px;
+
+  font-size: 8px;
+
+  font-weight: 800;
+
+  letter-spacing: 1px;
+
+  color: #172033;
+}
+
+
+.quotation-terms-section p {
+  margin: 3px 0;
+
+  font-size: 7.5px;
+
+  line-height: 1.45;
+
+  color: #697586;
+}
+
+
+
+/* ---------------------------------------------------------
+   FOOTER
+--------------------------------------------------------- */
+
+.official-quote-footer {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1.2fr 1fr;
+
+  align-items: center;
+
+  gap: 15px;
+
+  margin: 0 36px;
+
+  padding: 18px 0 8px;
+
+  border-top: 1px solid #dce2e8;
+}
+
+
+.quote-footer-brand {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-start;
+}
+
+
+.quote-footer-brand img {
+  width: 110px;
+
+  height: auto;
+}
+
+
+.quote-footer-brand span {
+  margin-top: 2px;
+
+  font-family: "Caveat", cursive;
+
+  font-size: 12px;
+
+  color: #172033;
+}
+
+
+.quote-footer-contact {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 5px;
+
+  font-size: 8px;
+
+  color: #586577;
+}
+
+
+.quote-footer-contact i {
+  width: 13px;
+
+  color: #29475f;
+}
+
+
+.quote-thanks {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: flex-end;
+
+  text-align: right;
+
+  color: #29475f;
+}
+
+
+.quote-thanks strong {
+  font-family: "Caveat", cursive;
+
+  font-size: 17px;
+
+  font-weight: 700;
+}
+
+
+.quote-thanks span {
+  font-family: "Caveat", cursive;
+
+  font-size: 13px;
+}
+
+
+
+/* =========================================================
+   PDF MODE
+========================================================= */
+
+.pdf-rendering .quote-sheet {
+  width: 920px !important;
+
+  max-width: 920px !important;
+
+  height: auto !important;
+
+  min-height: 0 !important;
+
+  overflow: visible !important;
+
+  box-shadow: none !important;
+}
+
+
+.pdf-rendering .quote-preview-toolbar {
+  display: none !important;
+}
+
+
+.pdf-rendering .quote-preview-overlay {
+  position: static !important;
+
+  background: #ffffff !important;
+}
+
+
+.pdf-rendering .quote-preview-shell {
+  width: auto !important;
+
+  max-width: none !important;
+
+  height: auto !important;
+
+  max-height: none !important;
+
+  box-shadow: none !important;
+}
+
+
+.pdf-rendering .quote-sheet {
+  overflow: visible !important;
+}
+
+
+/* Prevent ugly breaks */
+
+.pdf-rendering
+.quotation-policy-section,
+.pdf-rendering
+.quotation-commercial-section,
+.pdf-rendering
+.quotation-terms-section,
+.pdf-rendering
+.quote-footer,
+.pdf-rendering
+.official-total-card {
+  page-break-inside: avoid;
+}
+
+
+
+/* =========================================================
+   RESPONSIVE PREVIEW
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .official-quote-header {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+
+    padding: 25px 20px;
+  }
+
+
+  .quote-document-title {
+    text-align: left;
+  }
+
+
+  .official-meta-grid {
+    margin-left: 20px;
+    margin-right: 20px;
+
+    grid-template-columns: 1fr;
+  }
+
+
+  .official-meta-grid > div {
+    border-right: none;
+
+    border-bottom: 1px solid #dfe5eb;
+  }
+
+
+  .official-meta-grid > div:last-child {
+    border-bottom: none;
+  }
+
+
+  .official-info-grid {
+    margin-left: 20px;
+    margin-right: 20px;
+
+    grid-template-columns: 1fr;
+  }
+
+
+  .official-section-head,
+  .official-table-wrap,
+  .official-total-card,
+  .quotation-policy-section,
+  .quotation-commercial-section,
+  .quotation-terms-section,
+  .official-quote-footer {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+
+  .quotation-policy-grid,
+  .commercial-grid {
+    grid-template-columns: 1fr;
+  }
+
+
+  .official-quote-footer {
+    grid-template-columns: 1fr;
+
+    text-align: left;
+  }
+
+
+  .quote-thanks {
+    align-items: flex-start;
+
+    text-align: left;
+  }
+
+}
