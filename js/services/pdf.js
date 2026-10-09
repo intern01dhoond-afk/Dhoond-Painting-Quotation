@@ -72,10 +72,10 @@ function estimateTable(lines, { showTotal = false, total = 0 } = {}) {
   return `<table class="estimate-table"><colgroup><col style="width:6%"><col style="width:23%"><col style="width:29%"><col style="width:13%"><col style="width:12%"><col style="width:17%"></colgroup><thead><tr><th>#</th><th>Room / Area</th><th>Package Details</th><th>Area</th><th>Rate</th><th>Amount</th></tr></thead><tbody>${rows}</tbody></table>${totalHtml}`;
 }
 function footer(page, pages) {
-  return `<footer class="page-footer"><img src="${asset('assets/images/dhoond-logo-black.png')}" alt="Dhoond"><div class="contact"><b>+91 72094 84579</b><span>hello@dhoond.co</span><span>www.dhoond.co</span></div><div class="thanks">Thank you<br>for choosing Dhoond!</div><small>Page ${page} of ${pages}</small></footer>`;
+  return `<footer class="page-footer"><img src="${asset('assets/images/dhoond-logo.png')}" alt="Dhoond"><div class="contact"><b>+91 72094 84579</b><span>hello@dhoond.co</span><span>www.dhoond.co</span></div><div class="thanks">Thank you<br>for choosing Dhoond!</div><small>Page ${page} of ${pages}</small></footer>`;
 }
 function smallHeader(q, continued = false) {
-  return `<div class="small-header"><img src="${asset('assets/images/dhoond-logo-black.png')}" alt="Dhoond"><div><span>${continued ? 'PROJECT ESTIMATE · CONTINUED' : 'PAINTING QUOTATION'}</span><b>${esc(q.quotationNo)} &nbsp; | &nbsp; ${esc(q.date)}</b></div></div>`;
+  return `<div class="small-header"><img src="${asset('assets/images/dhoond-logo.png')}" alt="Dhoond"><div><span>${continued ? 'PROJECT ESTIMATE · CONTINUED' : 'PAINTING QUOTATION'}</span><b>${esc(q.quotationNo)} &nbsp; | &nbsp; ${esc(q.date)}</b></div></div>`;
 }
 function customerDetails(q) {
   const card = (title, icon, rows) => `<section class="detail-card"><h3><i>${icon}</i>${title}</h3>${rows.filter(([, v]) => v).map(([k, v]) => `<p><span>${esc(k)}</span><b>${esc(v)}</b></p>`).join('')}</section>`;
@@ -83,7 +83,7 @@ function customerDetails(q) {
 }
 function firstPage(q, lines, page, pages, showTotal) {
   return `<article class="pdf-page page-one"><main class="page-content">
-    <section class="hero"><div class="hero-copy"><img class="hero-logo" src="${asset('assets/images/dhoond-logo-black.png')}" alt="Dhoond — Kar toh Dekho!"><p class="hero-promise-intro">Professional Painting Services<br>for Cleaner, Brighter Homes</p><div class="categories">INTERIOR <i></i> EXTERIOR <i></i> VACANT HOUSE</div><h1>PAINTING<br><span>QUOTATION</span></h1><p class="quality">Quality Work <b>·</b> Trusted Professionals <b>·</b> Hassle-Free Experience</p></div><img class="hero-photo" src="${asset('assets/images/quotation-hero.jpg')}" alt="Freshly painted living room"></section>
+    <section class="hero"><div class="hero-copy"><img class="hero-logo" src="${asset('assets/images/dhoond-logo.png')}" alt="Dhoond — Kar toh Dekho!"><p class="hero-promise-intro">Professional Painting Services<br>for Cleaner, Brighter Homes</p><div class="categories">INTERIOR <i></i> EXTERIOR <i></i> VACANT HOUSE</div><h1>PAINTING<br><span>QUOTATION</span></h1><p class="quality">Quality Work <b>·</b> Trusted Professionals <b>·</b> Hassle-Free Experience</p></div><img class="hero-photo" src="${asset('assets/images/quotation-hero.jpg')}" alt="Freshly painted living room"></section>
     <section class="meta"><div><i>Q</i><span><small>Quotation No.</small><b>${esc(q.quotationNo)}</b></span></div><div><i>D</i><span><small>Date</small><b>${esc(q.date)}</b></span></div><div><i>⌂</i><span><small>Property Type</small><b>${esc(q.propertyStatus)}</b></span></div></section>
     ${customerDetails(q)}
     <section class="estimate"><div class="section-heading"><h2>Project Estimate</h2><span>Room-wise pricing based on the selected paint package</span></div>${estimateTable(lines, { showTotal, total: q.total })}${!showTotal ? '<p class="continue-note">Additional estimate items continue on the next page.</p>' : ''}</section>
