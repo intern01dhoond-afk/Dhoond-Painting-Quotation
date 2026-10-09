@@ -79,6 +79,7 @@ function getPreviewQuoteData() {
 function setPreviewField(id, value) {
   const field = document.getElementById(id);
   const text = String(value || '').trim();
+  if (!field) return Boolean(text);
   field.textContent = text;
 
   const row = field.closest('.quote-info-row');
@@ -143,10 +144,14 @@ function toggleSummaryModal(show) {
   }).join('');
 
   const hasQuotedItems = visibleRooms.length > 0;
-  document.querySelector('.official-section-head').hidden = !hasQuotedItems;
-  document.querySelector('.official-table-wrap').hidden = !hasQuotedItems;
-  document.getElementById('previewTableHint').hidden = !hasQuotedItems;
-  document.querySelector('.official-total-card').hidden = !hasQuotedItems;
+  const sectionHead = document.querySelector('.quote-section-head');
+  const tableWrap = document.querySelector('.quote-table-wrap');
+  const tableHint = document.getElementById('previewTableHint');
+  const totalCard = document.querySelector('.quote-total-card');
+  if (sectionHead) sectionHead.hidden = !hasQuotedItems;
+  if (tableWrap) tableWrap.hidden = !hasQuotedItems;
+  if (tableHint) tableHint.hidden = hasQuotedItems;
+  if (totalCard) totalCard.hidden = !hasQuotedItems;
 
   modal.classList.remove('hidden');
 }

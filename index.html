@@ -463,8 +463,8 @@
           </div>
 
           <div class="quote-info-grid">
-            <div><span>CUSTOMER</span><strong id="previewCustomer">Henanthr</strong><small id="previewMobile">7204948579</small></div>
-            <div><span>PROJECT TYPE</span><strong id="previewService">Interior Painting</strong><small id="previewStatus">Vacant House</small></div>
+            <div class="quote-info-block"><span>CUSTOMER</span><strong id="previewCustomer">Henanthr</strong><small id="previewMobile">7204948579</small><small id="previewCustomerAddress" class="quote-info-row" hidden></small></div>
+            <div class="quote-info-block"><span>PROJECT TYPE</span><strong id="previewService">Interior Painting</strong><small id="previewStatus">Vacant House</small><small id="previewSiteAddress" class="quote-info-row" hidden></small></div>
           </div>
 
           <div class="quote-section-head">
@@ -478,6 +478,7 @@
               <tbody id="previewRows"></tbody>
             </table>
           </div>
+          <p id="previewTableHint" class="quote-table-hint" hidden>No quoted rooms or services yet.</p>
 
           <div class="quote-total-card">
             <div><span>Grand Total</span><small id="previewTotalWords">Fifteen Thousand Four Hundred Twenty Rupees Only</small></div>
@@ -500,9 +501,9 @@
   <script src="js/data/addons.js"></script>
   <script src="js/state/store.js"></script>
   <script src="js/services/pdf.js"></script>
-  <script src="js/components/customer-flow.js"></script>
+  <script src="js/components/customer-flow.js?v=20261009-customer-flow-fix"></script>
   <script src="js/components/quotation-ui.js"></script>
-  <script src="js/components/summary.js"></script>
+  <script src="js/components/summary.js?v=20261009-preview-fix"></script>
   <script src="js/app.js?v=20261007-fresh-start"></script>
 </body>
 </html>
