@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Partner Painting Quotation</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -14,7 +14,7 @@
 <!-- Partner start flow: shown after splash screen -->
   <div id="partnerStartScreen" class="hidden">
     <div id="partnerStartCard">
-      <div class="site-brand-banner"><img src="assets/images/dhoond-logo-black.png" alt="Dhoond" /><span>Kar toh Dekho!</span></div>
+      <div class="site-brand-banner"><img src="assets/  images/dhoond-logo-black.png" alt="Dhoond" /><span>Kar toh Dekho!</span></div>
       <div id="customerStep" class="start-step active">
         <div class="flex items-start justify-between gap-4 mb-5">
           <div>
@@ -41,16 +41,6 @@
               </div>
               <input id="customerMobileInput" class="flex-1 border-0 outline-none px-3.5 py-3 text-sm bg-white min-w-0" type="tel" inputmode="numeric" maxlength="10" placeholder="98765 43210" autocomplete="off" />
             </div>
-          </div>
-
-          <div>
-            <label for="customerAddressInput" class="block text-sm font-bold text-gray-900 mb-2">Customer Address <span class="font-normal text-gray-500">(optional)</span></label>
-            <input id="customerAddressInput" class="start-input" type="text" maxlength="180" placeholder="Street, area, city" autocomplete="off" />
-          </div>
-
-          <div>
-            <label for="siteAddressInput" class="block text-sm font-bold text-gray-900 mb-2">Painting Site Address <span class="font-normal text-gray-500">(optional)</span></label>
-            <input id="siteAddressInput" class="start-input" type="text" maxlength="180" placeholder="Where the painting work will take place" autocomplete="off" />
           </div>
 
           <p id="customerError" class="hidden text-xs font-semibold text-[#7D8080]"></p>
@@ -454,530 +444,52 @@
         </div>
 
         <div class="quote-sheet custom-scrollbar">
-
-  <!-- =====================================================
-       OFFICIAL DHOOND QUOTATION HEADER
-  ====================================================== -->
-
-  <header class="quote-header official-quote-header">
-    <div class="quote-hero-copy">
-      <div class="quote-brand-lockup">
-        <img src="assets/images/dhoond-logo-black.png" alt="Dhoond" />
-        <span>Kar toh Dekho!</span>
-      </div>
-      <div class="quote-document-title">
-        <h1>PAINTING <strong>QUOTATION</strong></h1>
-        <p>Quality Work <b>|</b> Trusted Professionals <b>|</b> Hassle-Free Experience</p>
-      </div>
-    </div>
-    <div class="quote-hero-art" role="img" aria-label="A freshly painted home with painting tools">
-      <div class="hero-service-copy"><span>Interior <b>|</b> Exterior <b>|</b> Vacant House</span><strong>Professional Painting Services<br>for Cleaner, Brighter Homes</strong></div>
-      <img src="assets/images/quotation-hero.png" alt="" />
-    </div>
-  </header>
-
-
-
-  <!-- =====================================================
-       QUOTATION META
-  ====================================================== -->
-
-  <div class="quote-meta-grid official-meta-grid">
-
-    <div>
-      <i class="fa-regular fa-file-lines" aria-hidden="true"></i>
-      <span>Quotation No.</span>
-      <strong id="previewQuotationNo">
-        QTN-2026-00125
-      </strong>
-    </div>
-
-
-    <div>
-      <i class="fa-regular fa-calendar" aria-hidden="true"></i>
-      <span>Date</span>
-      <strong id="previewDate">
-        06 Oct 2026
-      </strong>
-    </div>
-
-
-    <div>
-      <i class="fa-solid fa-house" aria-hidden="true"></i>
-      <span>Property Type</span>
-      <strong id="previewProperty">
-        Vacant House
-      </strong>
-    </div>
-
-  </div>
-
-
-
-  <!-- =====================================================
-       CUSTOMER / SERVICE INFORMATION
-  ====================================================== -->
-
-  <div class="quote-info-grid official-info-grid">
-
-    <div class="quote-info-block">
-
-      <div class="quote-info-heading">
-        <i class="fa-regular fa-user" aria-hidden="true"></i>
-        Customer Details
-      </div>
-
-      <div class="quote-info-row">
-        <span>Name</span>
-        <strong id="previewCustomer">
-          Customer
-        </strong>
-      </div>
-
-      <div class="quote-info-row">
-        <span>Mobile</span>
-        <strong id="previewMobile">
-          -
-        </strong>
-      </div>
-
-      <div class="quote-info-row">
-        <span>Address</span>
-        <strong id="previewCustomerAddress"></strong>
-      </div>
-
-    </div>
-
-
-
-    <div class="quote-info-block">
-
-      <div class="quote-info-heading">
-        <i class="fa-solid fa-gear" aria-hidden="true"></i>
-        Service Details
-      </div>
-
-      <div class="quote-info-row">
-        <span>Service</span>
-        <strong id="previewService">
-          Interior Painting
-        </strong>
-      </div>
-
-      <div class="quote-info-row">
-        <span>Property</span>
-        <strong id="previewStatus">
-          Vacant House
-        </strong>
-      </div>
-
-      <div class="quote-info-row">
-        <span>Site Address</span>
-        <strong id="previewSiteAddress"></strong>
-      </div>
-
-    </div>
-
-  </div>
-
-
-
-  <!-- =====================================================
-       PROJECT ESTIMATE
-  ====================================================== -->
-
-  <div class="quote-section-head official-section-head">
-
-    <div>
-
-      <h2>
-        Project Estimate
-      </h2>
-
-      <p>
-        Room-wise pricing based on the selected paint package
-      </p>
-
-    </div>
-
-  </div>
-
-
-
-  <p id="previewTableHint" class="quote-table-hint" hidden>Swipe horizontally to view the full estimate</p>
-
-  <div class="quote-table-wrap official-table-wrap">
-
-    <table class="quote-table official-quote-table">
-
-      <thead>
-
-        <tr>
-
-          <th>#</th>
-
-          <th>
-            Room / Area
-          </th>
-
-          <th>
-            Package Details
-          </th>
-
-          <th>
-            Area<br><span>(sq ft)</span>
-          </th>
-
-          <th>
-            Rate<br><span>(₹ / sq ft)</span>
-          </th>
-
-          <th>
-            Amount (₹)
-          </th>
-
-        </tr>
-
-      </thead>
-
-      <tbody id="previewRows"></tbody>
-
-    </table>
-
-  </div>
-
-
-
-  <!-- =====================================================
-       GRAND TOTAL
-  ====================================================== -->
-
-  <div class="quote-total-card official-total-card">
-
-    <div>
-
-      <span>
-        Grand Total
-      </span>
-
-      <small id="previewTotalWords">
-        Inclusive of all applicable charges
-      </small>
-
-    </div>
-
-    <strong id="previewTotal">
-      ₹0
-    </strong>
-
-  </div>
-
-
-
-  <!-- =====================================================
-       SCOPE OF WORK
-  ====================================================== -->
-
-  <section class="quotation-policy-section">
-
-    <div class="quotation-policy-grid">
-
-      <!-- INCLUDED -->
-
-      <div class="quotation-policy-box">
-
-        <div class="quotation-policy-heading">
-
-          <span class="policy-symbol included-symbol">
-            ✓
-          </span>
-
-          <h3>
-            What's Included
-          </h3>
-
+          <header class="quote-header">
+            <div class="quote-brand-lockup">
+              <img src="assets/images/dhoond-logo-black.png" alt="Dhoond" />
+              <span>Kar toh Dekho!</span>
+            </div>
+            <div class="quote-document-title">
+              <span>YOUR HOME, REFRESHED</span>
+              <h1>Painting<br/><strong>Quotation</strong></h1>
+              <p>Prepared with care by Dhoond</p>
+            </div>
+          </header>
+
+          <div class="quote-meta-grid">
+            <div><span>Quotation No.</span><strong id="previewQuotationNo">QTN-2026-00125</strong></div>
+            <div><span>Date</span><strong id="previewDate">06 Oct 2026</strong></div>
+            <div><span>Property</span><strong id="previewProperty">Vacant House</strong></div>
+          </div>
+
+          <div class="quote-info-grid">
+            <div><span>CUSTOMER</span><strong id="previewCustomer">Henanthr</strong><small id="previewMobile">7204948579</small></div>
+            <div><span>PROJECT TYPE</span><strong id="previewService">Interior Painting</strong><small id="previewStatus">Vacant House</small></div>
+          </div>
+
+          <div class="quote-section-head">
+            <h2>Project Estimate</h2>
+            <p>Room-wise pricing based on the selected paint package</p>
+          </div>
+
+          <div class="quote-table-wrap">
+            <table class="quote-table">
+              <thead><tr><th>#</th><th>Room / Area</th><th>Package Details</th><th>Area</th><th>Rate</th><th>Amount</th></tr></thead>
+              <tbody id="previewRows"></tbody>
+            </table>
+          </div>
+
+          <div class="quote-total-card">
+            <div><span>Grand Total</span><small id="previewTotalWords">Fifteen Thousand Four Hundred Twenty Rupees Only</small></div>
+            <strong id="previewTotal">₹15,420</strong>
+          </div>
+
+          <div class="quote-footer">
+            <div class="quote-footer-brand"><strong>Dhoond</strong></div>
+            <div class="quote-footer-contact"><span>+91 <b id="previewFooterMobile">7204948579</b></span><span>www.dhoond.co</span></div>
+            <div class="quote-thanks">Thank you<br/>for choosing Dhoond!</div>
+          </div>
         </div>
-
-        <ul>
-
-          <li>
-            Surface cleaning and preparation
-          </li>
-
-          <li>
-            Primer application as per selected package
-          </li>
-
-          <li>
-            Selected paint and materials
-          </li>
-
-          <li>
-            Basic patch work for minor cracks and holes
-          </li>
-
-          <li>
-            Skilled painting labour and supervision
-          </li>
-
-          <li>
-            Standard painting tools and safety equipment
-          </li>
-
-          <li>
-            Final site cleaning after completion
-          </li>
-
-        </ul>
-
-      </div>
-
-
-
-      <!-- NOT INCLUDED -->
-
-      <div class="quotation-policy-box">
-
-        <div class="quotation-policy-heading">
-
-          <span class="policy-symbol excluded-symbol">
-            ×
-          </span>
-
-          <h3>
-            What's Not Included
-          </h3>
-
-        </div>
-
-        <ul>
-
-          <li>
-            Major civil repairs, leakage or structural cracks
-          </li>
-
-          <li>
-            Electrical or plumbing work
-          </li>
-
-          <li>
-            Carpentry or false-ceiling work
-          </li>
-
-          <li>
-            Furniture shifting unless specifically agreed
-          </li>
-
-          <li>
-            Texture or designer finishes unless selected
-          </li>
-
-          <li>
-            Additional coats beyond the agreed package
-          </li>
-
-          <li>
-            Work outside the approved quotation scope
-          </li>
-
-        </ul>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       COMMERCIAL TERMS
-  ====================================================== -->
-
-  <section class="quotation-commercial-section">
-
-    <div class="commercial-grid">
-
-
-      <!-- PAYMENT -->
-
-      <div class="commercial-box">
-
-        <div class="commercial-heading">
-
-          <span class="commercial-icon">
-            ₹
-          </span>
-
-          <h3>
-            Payment Terms
-          </h3>
-
-        </div>
-
-        <ul>
-
-          <li>
-            50% advance before work starts.
-          </li>
-
-          <li>
-            40% after completion of painting work.
-          </li>
-
-          <li>
-            10% after final inspection and handover. Additional approved work is charged separately.
-          </li>
-
-          <li>
-            Pay by bank transfer, UPI or another mutually agreed method.
-          </li>
-
-        </ul>
-
-      </div>
-
-
-
-      <!-- REFUND -->
-
-      <div class="commercial-box">
-
-        <div class="commercial-heading">
-
-          <span class="commercial-icon">
-            ↻
-          </span>
-
-          <h3>
-            Refund & Cancellation
-          </h3>
-
-        </div>
-
-        <ul>
-
-          <li>
-            Advance amount is non-refundable once work starts.
-          </li>
-
-          <li>
-            If cancelled before work starts, the advance (minus material cost) will be refunded.
-          </li>
-
-          <li>
-            Eligible refunds are processed within 7–10 working days.
-          </li>
-
-        </ul>
-
-      </div>
-
-
-
-      <!-- VALIDITY -->
-
-      <div class="commercial-box">
-
-        <div class="commercial-heading">
-
-          <span class="commercial-icon">
-            ✓
-          </span>
-
-          <h3>
-            Validity & Timeline
-          </h3>
-
-        </div>
-
-        <ul>
-
-          <li>
-            This quotation is valid for 30 days from the date of issue.
-          </li>
-
-          <li>
-            Work commencement is subject to customer approval and
-            schedule availability.
-          </li>
-
-          <li>
-            Estimated duration: 7–15 days, depending on site size and scope.
-          </li>
-
-        </ul>
-
-      </div>
-
-    </div>
-
-  </section>
-
-
-
-  <!-- =====================================================
-       FOOTER
-  ====================================================== -->
-
-  <p class="quote-footer-terms">
-    Final pricing follows the approved scope and measurements. Additional work requires separate approval and may cost extra. Paint brand, colours and package specifications are confirmed before work begins; excluded work remains outside this quotation.
-  </p>
-
-  <footer class="quote-footer official-quote-footer">
-
-    <div class="quote-footer-brand">
-
-      <img
-        src="assets/images/dhoond-logo-black.png"
-        alt="Dhoond"
-      />
-
-      <span>
-        Kar toh Dekho!
-      </span>
-
-    </div>
-
-
-    <div class="quote-footer-contact">
-
-      <span>
-        <i class="fa-solid fa-phone"></i>
-
-        +91
-        <b id="previewFooterMobile">
-          7204948579
-        </b>
-      </span>
-
-
-      <span>
-        <i class="fa-solid fa-globe"></i>
-
-        www.dhoond.co
-      </span>
-      <span><i class="fa-solid fa-envelope"></i> hello@dhoond.co</span>
-
-    </div>
-
-
-    <div class="quote-thanks">
-
-      <strong>
-        Thank you
-      </strong>
-
-      <span>
-        for choosing Dhoond!
-      </span>
-
-    </div>
-
-  </footer>
-
-
-</div>
       </div>
     </div>
 
