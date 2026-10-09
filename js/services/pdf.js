@@ -142,6 +142,10 @@ function addPdfStyles() {
     #summaryModal .quote-sheet.pdf-preview-active{display:flex;flex-direction:column;align-items:center;gap:18px;padding:20px 12px;background:#4b555f;color:#15263b;font-family:'Montserrat','Segoe UI',Arial,sans-serif}
     #summaryModal .pdf-preview-page-frame{position:relative;flex:0 0 auto;overflow:visible;margin:0 auto}
     #summaryModal .pdf-preview-page-frame>.pdf-page{position:absolute;left:0;top:0;transform-origin:top left;box-shadow:0 5px 20px rgba(0,0,0,.22)}
+    .process-section{margin-top:22px}.process-grid{gap:12px;margin-top:12px}.process-card{padding-right:10px}.process-card img{height:90px}.step-no{margin-top:7px;padding:3px 6px}.process-card h3{margin:7px 0 5px;font-size:10.5px}.process-card li{margin:3px 0;font-size:8.3px;line-height:1.32}
+    .comparison{margin-top:22px}.comparison .section-heading{margin-bottom:10px}.comparison thead th{height:30px;padding:7px}.comparison tbody th,.comparison td{padding:8px;line-height:1.28}.comparison-note{margin-top:7px;line-height:1.3}
+    .scope-grid{gap:14px;margin-top:16px}.scope-card{padding:11px 13px}.scope-card h3{margin-bottom:8px}.scope-card li{margin:3px 0;font-size:8.3px;line-height:1.28}
+    .terms-grid{gap:12px;margin-top:14px}.terms-grid article{padding:10px 11px}.terms-grid h3{margin-bottom:7px;font-size:9.5px}.terms-grid li{margin:3px 0;font-size:8px;line-height:1.28}.terms-note{margin-top:12px;padding-top:7px;line-height:1.3}
   `;
   document.head.appendChild(s);
 }
