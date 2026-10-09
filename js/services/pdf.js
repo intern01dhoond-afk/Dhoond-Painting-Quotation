@@ -139,6 +139,9 @@ function addPdfStyles() {
     .scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}.scope-card{border:1px solid #d5dfe7;padding:8px 10px}.scope-card.included{border-left:3px solid #16825c;background:#f7fbf9}.scope-card.excluded{border-left:3px solid #b93737;background:#fffafa}.scope-card h3{display:flex;align-items:center;gap:6px;margin:0 0 4px;font:11px Georgia,serif}.scope-card h3 i{display:grid;place-items:center;width:17px;height:17px;border-radius:50%;background:#e3f3ec;color:#087248;font:700 11px Arial,sans-serif}.excluded h3 i{background:#faeaea;color:#b32727}.scope-card ul,.terms-grid ul{margin:0;padding-left:13px}.scope-card li{margin:2px 0;font-size:7.4px;line-height:1.2;color:#46566a}
     .terms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}.terms-grid article{border:1px solid #d6dfe7;padding:7px 8px}.terms-grid h3{margin:0 0 4px;font:9px/1.15 Georgia,serif}.terms-grid li{margin:2px 0;color:#495a6d;font-size:7px;line-height:1.17}.terms-note{margin:7px 0 0;border-top:1px solid #d5dfe7;padding-top:5px;color:#637388;font-size:7px;line-height:1.22}.continuation-page .paint-row td{height:45px}
     .estimate-table td small,.addon-detail{font-size:8px}.process-card li{font-size:8.1px;line-height:1.2}.comparison table{font-size:8.2px}.comparison thead th{font-size:8px}.comparison tbody th,.comparison td{line-height:1.2}.comparison tbody th{font-size:8.2px}.comparison-note,.terms-note{font-size:7.7px}.scope-card li{font-size:8.1px}.terms-grid li{font-size:7.8px}.page-footer>small{font-size:7.4px}
+    #summaryModal .quote-sheet.pdf-preview-active{display:flex;flex-direction:column;align-items:center;gap:18px;padding:20px 12px;background:#4b555f;color:#15263b;font-family:'Montserrat','Segoe UI',Arial,sans-serif}
+    #summaryModal .pdf-preview-page-frame{position:relative;flex:0 0 auto;overflow:visible;margin:0 auto}
+    #summaryModal .pdf-preview-page-frame>.pdf-page{position:absolute;left:0;top:0;transform-origin:top left;box-shadow:0 5px 20px rgba(0,0,0,.22)}
   `;
   document.head.appendChild(s);
 }
@@ -167,6 +170,34 @@ function quotePages(q, lines) {
   const html = [firstPage(q, parts[0], 1, count, parts.length === 1)];
   parts.slice(1).forEach((part, i) => html.push(continuationPage(q, part, i + 2, count, i === parts.length - 2)));
   html.push(processPage(q, processNo, count)); return html;
+}
+function renderQuotationPreviewPages(rawQuote) {
+  const sheet = document.querySelector('#summaryModal .quote-sheet');
+  if (!sheet) return;
+  addPdfStyles();
+  const quote = normalizeQuote(rawQuote), htmlPages = quotePages(quote, estimateLines(quote));
+  sheet.classList.add('pdf-preview-active');
+  sheet.innerHTML = '';
+  htmlPages.forEach(markup => {
+    const frame = document.createElement('div');
+    frame.className = 'pdf-preview-page-frame';
+    frame.innerHTML = markup;
+    sheet.appendChild(frame);
+  });
+  const fitPages = () => {
+    const scale = Math.min(1, Math.max(.2, (sheet.clientWidth - 24) / PDF_W));
+    sheet.querySelectorAll('.pdf-preview-page-frame').forEach(frame => {
+      frame.style.width = `${PDF_W * scale}px`;
+      frame.style.height = `${PDF_H * scale}px`;
+      frame.firstElementChild.style.transform = `scale(${scale})`;
+    });
+  };
+  window.__dhoondPdfPreviewResizeObserver?.disconnect();
+  if (window.ResizeObserver) {
+    window.__dhoondPdfPreviewResizeObserver = new ResizeObserver(fitPages);
+    window.__dhoondPdfPreviewResizeObserver.observe(sheet);
+  }
+  fitPages();
 }
 function waitForImage(img) {
   return new Promise((resolve, reject) => {

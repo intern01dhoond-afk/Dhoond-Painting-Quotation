@@ -98,6 +98,12 @@ function toggleSummaryModal(show) {
   window.__dhoondQuotationNumber = quotationNo;
   window.__dhoondPreviewQuote = { ...quote, quotationNo, date: formatDate() };
 
+  if (typeof window.renderQuotationPreviewPages === 'function') {
+    modal.classList.remove('hidden');
+    window.renderQuotationPreviewPages(window.__dhoondPreviewQuote);
+    return;
+  }
+
   document.getElementById('previewQuotationNo').textContent = quotationNo;
   document.getElementById('previewDate').textContent = window.__dhoondPreviewQuote.date;
   document.getElementById('previewProperty').textContent = quote.propertyStatus;
