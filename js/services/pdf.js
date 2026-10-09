@@ -372,46 +372,6 @@ function createProfessionalPolicySection() {
     'dhoond-pdf-policy-section';
 
   wrapper.innerHTML = `
-    <section class="dhoond-procedure">
-      <div class="dhoond-section-kicker">THE DHOOND DIFFERENCE</div>
-      <h2>Our painting process</h2>
-      <p class="dhoond-section-intro">A clear, step-by-step approach from protecting your home to the final walkthrough.</p>
-      <div class="dhoond-process-grid">
-        <article class="dhoond-process-step">
-          <div class="dhoond-process-art"><svg viewBox="0 0 80 64" role="img" aria-label="Room protected before painting"><path d="M13 51V15h54v36" fill="#f4f8fc" stroke="#24445f" stroke-width="3"/><path d="M9 51h62v7H9z" fill="#d9e9f7"/><path d="M23 20h34v25H23z" fill="#fff" stroke="#8bb8dc" stroke-width="2"/><path d="M16 48h48M25 44l8-8 7 5 9-11 8 8" fill="none" stroke="#2384d9" stroke-width="3"/><circle cx="58" cy="17" r="5" fill="#f0b64d"/></svg></div>
-          <b>01 · Protect</b><span>Cover floors and furniture; prepare the work area.</span>
-        </article>
-        <article class="dhoond-process-step">
-          <div class="dhoond-process-art"><svg viewBox="0 0 80 64" role="img" aria-label="Wall surface preparation"><path d="M15 10h50v44H15z" fill="#f4f8fc" stroke="#24445f" stroke-width="3"/><path d="M21 42l8-8 7 4 7-15 7 12 7-5 8 11" fill="none" stroke="#e5a842" stroke-width="4"/><path d="M25 18h30" stroke="#8bb8dc" stroke-width="3"/><circle cx="57" cy="20" r="3" fill="#2384d9"/></svg></div>
-          <b>02 · Prepare</b><span>Clean the surface and handle minor patchwork in scope.</span>
-        </article>
-        <article class="dhoond-process-step">
-          <div class="dhoond-process-art"><svg viewBox="0 0 80 64" role="img" aria-label="Primer and paint application"><path d="M17 15h30v8H17zM42 19h8v13H38" fill="none" stroke="#24445f" stroke-width="4" stroke-linejoin="round"/><path d="M31 32h24v8H31z" fill="#2384d9"/><path d="M38 40v12" stroke="#24445f" stroke-width="4"/><path d="M55 12v10M61 16l7-4M24 47c0 4-6 4-6 0s6-8 6-8 6 4 6 8" fill="#f0b64d"/></svg></div>
-          <b>03 · Prime & paint</b><span>Apply the selected primer and paint system as quoted.</span>
-        </article>
-        <article class="dhoond-process-step">
-          <div class="dhoond-process-art"><svg viewBox="0 0 80 64" role="img" aria-label="Finished room checked and cleaned"><path d="M14 12h52v41H14z" fill="#f4f8fc" stroke="#24445f" stroke-width="3"/><path d="M21 19h38v27H21z" fill="#dcedf9"/><path d="M28 34l7 7 16-17" fill="none" stroke="#2384d9" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 55h60" stroke="#e5a842" stroke-width="4"/></svg></div>
-          <b>04 · Clean & review</b><span>Clean the site and review the completed work with you.</span>
-        </article>
-      </div>
-    </section>
-
-    <section class="dhoond-comparison">
-      <div class="dhoond-section-kicker">A MORE TRANSPARENT QUOTE</div>
-      <h2>How this Dhoond quote compares</h2>
-      <p class="dhoond-section-intro">Compare the scope and written terms that matter. Other providers’ offerings vary by city, package and project.</p>
-      <table class="dhoond-compare-table">
-        <thead><tr><th>What to compare</th><th>This Dhoond quotation</th><th>NoBroker · Urban Company · AapkaPainter</th></tr></thead>
-        <tbody>
-          <tr><td>Estimate format</td><td>Room-wise area, selected package, rates and total shown here.</td><td>Request a current estimate; format and inclusions depend on the service/package.</td></tr>
-          <tr><td>Materials & extras</td><td>Selected paint package and chosen add-ons are itemised in this quote.</td><td>Check the chosen package for paint brand, coats, repairs and add-on charges.</td></tr>
-          <tr><td>Project experience</td><td>Scope, payment terms and validity are stated in this quotation.</td><td>Providers advertise managed booking, inspections or quality checks; exact process varies.</td></tr>
-          <tr><td>Warranty & support</td><td>Refer to the written terms agreed for this project; confirm any warranty before booking.</td><td>Warranty/support terms differ by provider and selected system; verify current written terms.</td></tr>
-        </tbody>
-      </table>
-      <p class="dhoond-compare-note">For a fair comparison, match the paint brand, coats, surface preparation, protection, cleanup, taxes and warranty in each written quote.</p>
-    </section>
-
     <div class="dhoond-policy-grid">
 
       <section class="dhoond-policy-card included">
@@ -585,22 +545,6 @@ function injectPdfStyles() {
       width: 100%;
       color: #172033;
     }
-
-    .dhoond-procedure, .dhoond-comparison { margin: 0 0 18px; color: #172033; page-break-inside: avoid; }
-    .dhoond-section-kicker { color: #2384d9; font-size: 8px; font-weight: 800; letter-spacing: 1.1px; }
-    .dhoond-procedure h2, .dhoond-comparison h2 { margin: 2px 0 3px; font-size: 17px; color: #172033; }
-    .dhoond-section-intro { margin: 0 0 9px; color: #667085; font-size: 9px; }
-    .dhoond-process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .dhoond-process-step { border: 1px solid #dce3eb; border-radius: 7px; padding: 7px; page-break-inside: avoid; }
-    .dhoond-process-art { height: 54px; display: flex; justify-content: center; align-items: center; background: #f4f8fc; border-radius: 5px; margin-bottom: 5px; }
-    .dhoond-process-art svg { width: 68px; height: 52px; }
-    .dhoond-process-step b { display: block; font-size: 9px; margin-bottom: 2px; }
-    .dhoond-process-step span { display: block; color: #667085; font-size: 7.5px; line-height: 1.35; }
-    .dhoond-compare-table { font-size: 7.5px; table-layout: fixed; }
-    .dhoond-compare-table th, .dhoond-compare-table td { padding: 5px 6px; text-align: left; vertical-align: top; border: 1px solid #dce3eb; line-height: 1.35; }
-    .dhoond-compare-table th { background: #24445f; color: white; }
-    .dhoond-compare-table td:first-child { font-weight: 700; width: 18%; }
-    .dhoond-compare-note { margin: 5px 0 0; font-size: 7.5px; color: #667085; }
 
 
     .dhoond-policy-grid {
