@@ -93,10 +93,10 @@ function continuationPage(q, lines, page, pages, showTotal) {
   return `<article class="pdf-page continuation-page"><main class="page-content">${smallHeader(q, true)}<div class="continued-intro"><h1>Room-wise estimate</h1><p>${esc(q.customerName)} · ${esc(q.quotationNo)}</p></div>${estimateTable(lines, { showTotal, total: q.total })}<p class="estimate-note">Pricing reflects the selected room areas, paint packages and add-ons shown in this quotation.</p></main>${footer(page, pages)}</article>`;
 }
 const PROCESS = [
-  ['01', 'Surface Preparation', 'assets/images/4.png', 'Surface preparation before painting', ['Clean, sand and prepare the surface', 'Patch minor cracks within scope', 'Protect nearby fittings and floors']],
-  ['02', 'Primer & Putty', 'assets/images/1.png', 'Applying primer and putty', ['Apply putty when included in scope', 'Use primer as per selected package', 'Allow coats to dry before the next step']],
-  ['03', 'Painting', 'assets/images/2.png', 'Applying finish paint with a roller', ['Apply selected paint and shade', 'Follow the coat count in the package', 'Finish edges and details carefully']],
-  ['04', 'Final Inspection', 'assets/images/3.png', 'Final painting inspection', ['Review completed surfaces together', 'Touch up agreed items if required', 'Clean the site after completion']]
+  ['01', 'Surface Preparation', 'assets/images/1.png', 'Surface preparation before painting', ['Clean, sand and prepare the surface', 'Patch minor cracks within scope', 'Protect nearby fittings and floors']],
+  ['02', 'Primer & Putty', 'assets/images/2.png', 'Applying primer and putty', ['Apply putty when included in scope', 'Use primer as per selected package', 'Allow coats to dry before the next step']],
+  ['03', 'Painting', 'assets/images/3.png', 'Applying finish paint with a roller', ['Apply selected paint and shade', 'Follow the coat count in the package', 'Finish edges and details carefully']],
+  ['04', 'Final Inspection', 'assets/images/4.png', 'Final painting inspection', ['Review completed surfaces together', 'Touch up agreed items if required', 'Clean the site after completion']]
 ];
 const COMPARISON = [
   ['Quotation', 'Room-wise areas, packages and rates are listed in this quote.', 'Ask each provider for a room-wise breakdown and written final price.'],
