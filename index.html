@@ -96,6 +96,18 @@
               <i id="exteriorCheck" class="fa-solid fa-check text-[#2196F3] hidden"></i>
             </div>
           </button>
+          <button type="button" id="bothOption" onclick="selectPaintScope('both')" class="scope-option">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                <i class="fa-solid fa-house-circle-check text-emerald-700"></i>
+              </div>
+              <div class="flex-1">
+                <p class="font-bold text-gray-900">Interior & Exterior</p>
+                <p class="text-[11px] text-gray-500 mt-0.5">Prepare one quotation with separate estimates</p>
+              </div>
+              <i id="bothCheck" class="fa-solid fa-check text-[#2196F3] hidden"></i>
+            </div>
+          </button>
         </div>
 
         <p id="scopeNote" class="text-[11px] text-gray-400 mt-4 leading-relaxed"></p>
@@ -155,6 +167,10 @@
 
 
     <!-- Room Horizontal Tabs -->
+    <div id="estimateScopeTabs" class="hidden mx-3 mt-2 bg-gray-100 p-1 rounded-xl flex items-center text-xs font-semibold">
+      <button id="interiorEstimateTab" onclick="switchEstimateScope('interior')" class="flex-1 py-2 rounded-lg">Interior estimate</button>
+      <button id="exteriorEstimateTab" onclick="switchEstimateScope('exterior')" class="flex-1 py-2 rounded-lg">Exterior estimate</button>
+    </div>
     <div class="mt-1 bg-gray-50 border-y border-gray-200 px-3 py-2.5 flex items-center gap-2 overflow-x-auto no-scrollbar">
       <div id="roomTabsContainer" class="flex items-center gap-2"></div>
       <button onclick="addNewRoomPrompt()" class="px-3 py-1.5 rounded-full border border-dashed border-gray-400 text-xs font-semibold text-gray-600 hover:bg-gray-100 flex items-center gap-1 whitespace-nowrap">
@@ -986,11 +1002,11 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="js/data/packages.js"></script>
   <script src="js/data/addons.js"></script>
-  <script src="js/state/store.js"></script>
-  <script src="js/services/pdf.js?v=20261009-spaced-layout"></script>
-  <script src="js/components/customer-flow.js"></script>
-  <script src="js/components/quotation-ui.js"></script>
-  <script src="js/components/summary.js?v=20261009-spaced-layout"></script>
+  <script src="js/state/store.js?v=20261014-vacant-rate"></script>
+  <script src="js/services/pdf.js?v=20261014-vacant-rate"></script>
+  <script src="js/components/customer-flow.js?v=20261014-vacant-rate"></script>
+  <script src="js/components/quotation-ui.js?v=20261014-vacant-rate"></script>
+  <script src="js/components/summary.js?v=20261014-vacant-rate"></script>
   <script src="js/app.js?v=20261007-fresh-start"></script>
 </body>
 </html>

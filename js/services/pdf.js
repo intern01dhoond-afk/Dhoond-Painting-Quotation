@@ -1,4 +1,4 @@
-﻿// js/services/pdf.js
+﻿   // js/services/pdf.js
 // Customer-facing PDF generation and WhatsApp handoff. Both actions use one builder.
 const TARGET_WHATSAPP = '917204948579';
 const PDF_W = 794;
@@ -40,7 +40,7 @@ function ensurePreviewIsReady() {
 }
 function normalizeQuote(q) {
   const rooms = (q.quoteRooms || q.rooms || []).map((r, i) => ({
-    index: Number(r.index) || i + 1, name: String(r.name || `Room ${i + 1}`), area: Number(r.area) || 0,
+    index: Number(r.index) || i + 1, name: String(r.name || `Room ${i + 1}`), scope: String(r.scope || q.scope || 'Interior'), area: Number(r.area) || 0,
     packageName: String(r.pkg || r.packageName || ''), rate: Number(r.rate) || 0,
     amount: Number(r.amount ?? r.paintCost ?? ((Number(r.area) || 0) * (Number(r.rate) || 0))) || 0,
     addons: Array.isArray(r.addons) ? r.addons.map(a => ({ label: String(a.label || a.name || 'Add-on'), detail: String(a.detail || ''), amount: Number(a.amount) || 0 })) : []
@@ -50,14 +50,16 @@ function normalizeQuote(q) {
     date: String(q.date || formatDate()), customerName: String(q.customerName || 'Customer').trim(),
     customerMobile: String(q.customerMobile || '').trim(), customerAddress: String(q.customerAddress || '').trim(),
     scope: String(q.scope || 'Interior Painting'), propertyStatus: String(q.propertyStatus || 'Vacant House'),
-    siteAddress: String(q.siteAddress || '').trim(), rooms, total: Math.round(Number(q.total) || 0)
+    siteAddress: String(q.siteAddress || '').trim(), rooms,
+    quoteScopes: Array.isArray(q.quoteScopes) ? q.quoteScopes.map(s => ({ label: String(s.label || ''), total: Math.round(Number(s.total) || 0) })) : [],
+    total: Math.round(Number(q.total) || 0)
   };
 }
 function estimateLines(q) {
   const lines = [];
   q.rooms.forEach(r => {
-    if (r.area > 0 && r.packageName) lines.push({ kind: 'paint', roomIndex: r.index, roomName: r.name, area: r.area, packageName: r.packageName, rate: r.rate, amount: r.amount });
-    r.addons.forEach(a => lines.push({ kind: 'addon', roomIndex: r.index, roomName: r.name, label: a.label, detail: a.detail, amount: a.amount }));
+    if (r.area > 0 && r.packageName) lines.push({ kind: 'paint', scope: r.scope, roomIndex: `${r.scope}-${r.index}`, roomName: r.name, area: r.area, packageName: r.packageName, rate: r.rate, amount: r.amount });
+    r.addons.forEach(a => lines.push({ kind: 'addon', scope: r.scope, roomIndex: `${r.scope}-${r.index}`, roomName: r.name, label: a.label, detail: a.detail, amount: a.amount }));
   });
   return lines;
 }
@@ -66,9 +68,15 @@ function estimateRow(line, index) {
   const p = line.packageName.split(' - ');
   return `<tr class="paint-row"><td class="center">${index + 1}</td><td><strong>${esc(line.roomName)}</strong><small>${esc(line.area.toLocaleString('en-IN'))} sq.ft</small></td><td><strong>${esc(p[0])}</strong><small>${esc(p.slice(1).join(' · ') || 'Selected package')}</small></td><td class="center">${esc(line.area.toLocaleString('en-IN'))}<small>sq.ft</small></td><td class="center">${money(line.rate)}</td><td class="amount">${money(line.amount)}</td></tr>`;
 }
-function estimateTable(lines, { showTotal = false, total = 0 } = {}) {
-  const rows = lines.length ? lines.map(estimateRow).join('') : '<tr><td class="empty-row" colspan="6">No priced room areas or add-on services were selected.</td></tr>';
-  const totalHtml = showTotal ? `<div class="grand-total"><div><strong>Grand Total</strong><small>Inclusive of all applicable charges</small></div><b><strong>${money(total)}</strong><small>${esc(numberToWordsIndian(total))} Rupees Only</small></b></div>` : '';
+function estimateTable(lines, { showTotal = false, total = 0, scopeTotals = [] } = {}) {
+  let lastScope = '';
+  const rows = lines.length ? lines.map((line, index) => {
+    const heading = line.scope !== lastScope ? `<tr class="scope-heading-row"><td colspan="6">${esc(line.scope)} estimate</td></tr>` : '';
+    lastScope = line.scope;
+    return heading + estimateRow(line, index);
+  }).join('') : '<tr><td class="empty-row" colspan="6">No priced room areas or add-on services were selected.</td></tr>';
+  const subtotalHtml = scopeTotals.length > 1 ? scopeTotals.map(scope => `<small>${esc(scope.label)} subtotal: ${money(scope.total)}</small>`).join('') : '';
+  const totalHtml = showTotal ? `<div class="grand-total"><div>${subtotalHtml}<strong>Grand Total</strong><small>Inclusive of all applicable charges</small></div><b><strong>${money(total)}</strong><small>${esc(numberToWordsIndian(total))} Rupees Only</small></b></div>` : '';
   return `<table class="estimate-table"><colgroup><col style="width:6%"><col style="width:23%"><col style="width:29%"><col style="width:13%"><col style="width:12%"><col style="width:17%"></colgroup><thead><tr><th>#</th><th>Room / Area</th><th>Package Details</th><th>Area</th><th>Rate</th><th>Amount</th></tr></thead><tbody>${rows}</tbody></table>${totalHtml}`;
 }
 function footer(page, pages) {
@@ -86,11 +94,11 @@ function firstPage(q, lines, page, pages, showTotal) {
     <section class="hero"><div class="hero-copy"><img class="hero-logo" src="${asset('assets/images/dhoond-logo.png')}" alt="Dhoond — Kar toh Dekho!"><p class="hero-promise-intro">Professional Painting Services<br>for Cleaner, Brighter Homes</p><div class="categories">INTERIOR <i></i> EXTERIOR <i></i> VACANT HOUSE</div><h1>PAINTING<br><span>QUOTATION</span></h1><p class="quality">Quality Work <b>·</b> Trusted Professionals <b>·</b> Hassle-Free Experience</p></div><img class="hero-photo" src="${asset('assets/images/quotation-hero.jpg')}" alt="Freshly painted living room"></section>
     <section class="meta"><div><i>Q</i><span><small>Quotation No.</small><b>${esc(q.quotationNo)}</b></span></div><div><i>D</i><span><small>Date</small><b>${esc(q.date)}</b></span></div><div><i>⌂</i><span><small>Property Type</small><b>${esc(q.propertyStatus)}</b></span></div></section>
     ${customerDetails(q)}
-    <section class="estimate"><div class="section-heading"><h2>Project Estimate</h2><span>Room-wise pricing based on the selected paint package</span></div>${estimateTable(lines, { showTotal, total: q.total })}${!showTotal ? '<p class="continue-note">Additional estimate items continue on the next page.</p>' : ''}</section>
+    <section class="estimate"><div class="section-heading"><h2>Project Estimate</h2><span>Room-wise pricing based on the selected paint package</span></div>${estimateTable(lines, { showTotal, total: q.total, scopeTotals: q.quoteScopes })}${!showTotal ? '<p class="continue-note">Additional estimate items continue on the next page.</p>' : ''}</section>
   </main>${footer(page, pages)}</article>`;
 }
 function continuationPage(q, lines, page, pages, showTotal) {
-  return `<article class="pdf-page continuation-page"><main class="page-content">${smallHeader(q, true)}<div class="continued-intro"><h1>Room-wise estimate</h1><p>${esc(q.customerName)} · ${esc(q.quotationNo)}</p></div>${estimateTable(lines, { showTotal, total: q.total })}<p class="estimate-note">Pricing reflects the selected room areas, paint packages and add-ons shown in this quotation.</p></main>${footer(page, pages)}</article>`;
+  return `<article class="pdf-page continuation-page"><main class="page-content">${smallHeader(q, true)}<div class="continued-intro"><h1>Room-wise estimate</h1><p>${esc(q.customerName)} · ${esc(q.quotationNo)}</p></div>${estimateTable(lines, { showTotal, total: q.total, scopeTotals: q.quoteScopes })}<p class="estimate-note">Pricing reflects the selected room areas, paint packages and add-ons shown in this quotation.</p></main>${footer(page, pages)}</article>`;
 }
 const PROCESS = [
   ['01', 'Surface Preparation', 'assets/images/1.png', 'Surface preparation before painting', ['Clean, sand and prepare the surface', 'Patch minor cracks within scope', 'Protect nearby fittings and floors']],
@@ -147,6 +155,7 @@ function addPdfStyles() {
     .scope-grid{gap:14px;margin-top:16px}.scope-card{padding:11px 13px}.scope-card h3{margin-bottom:8px}.scope-card li{margin:3px 0;font-size:8.3px;line-height:1.28}
     .terms-grid{gap:12px;margin-top:14px}.terms-grid article{padding:10px 11px}.terms-grid h3{margin-bottom:7px;font-size:9.5px}.terms-grid li{margin:3px 0;font-size:8px;line-height:1.28}.terms-note{margin-top:12px;padding-top:7px;line-height:1.3}
   `;
+  s.textContent += '.estimate-table .scope-heading-row td{padding:7px 8px;background:#eaf2f8;color:#164763;font-weight:800;text-transform:uppercase;letter-spacing:.5px}';
   document.head.appendChild(s);
 }
 function estimatePages(lines, firstLimit = 12, nextLimit = 16) {

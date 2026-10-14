@@ -25,12 +25,14 @@ function previewFormatDate(date = new Date()) {
 }
 
 function getPreviewQuoteData() {
-  let total = 0;
-  const quoteRooms = rooms.map((r, index) => {
-    const pkg = PACKAGES[r.packageIndex];
+  const buildScope = (scopeRooms, packages, scopeLabel) => {
+    let scopeTotal = 0;
+    const scopeRoomsData = scopeRooms.map((r, index) => {
+    const pkg = packages[r.packageIndex];
     const area = Number(r.area) || 0;
     const hasArea = area > 0;
-    const paintCost = pkg && hasArea ? area * (pkg.rate + r.puttyRate) : 0;
+    const effectiveRate = getEffectivePaintRate(pkg, r.puttyRate);
+    const paintCost = pkg && hasArea ? area * effectiveRate : 0;
     let addonCost = 0;
     const addons = [];
     const d = ADDON_CATALOG.door.find(x => x.id === r.doorSelection.id);
@@ -53,25 +55,36 @@ function getPreviewQuoteData() {
     }
     const row = {
       index: index + 1,
+      scope: scopeLabel,
       name: r.name,
       area,
       hasArea,
       pkg: pkg ? pkg.name : '',
-      rate: pkg ? pkg.rate + r.puttyRate : 0,
+      rate: effectiveRate,
       amount: paintCost,
       addons
     };
-    total += paintCost + addonCost;
+    scopeTotal += paintCost + addonCost;
     return row;
   });
+    return { label: scopeLabel, quoteRooms: scopeRoomsData, total: scopeTotal };
+  };
+  const quoteScopes = paintScope === 'both'
+    ? [buildScope(interiorRooms, INTERIOR_PACKAGES, 'Interior'), buildScope(exteriorRooms, EXTERIOR_PACKAGES, 'Exterior')]
+    : [paintScope === 'exterior'
+      ? buildScope(exteriorRooms, EXTERIOR_PACKAGES, 'Exterior')
+      : buildScope(interiorRooms, INTERIOR_PACKAGES, 'Interior')];
+  const quoteRooms = quoteScopes.flatMap(scope => scope.quoteRooms);
+  const total = quoteScopes.reduce((sum, scope) => sum + scope.total, 0);
   return {
     quoteRooms,
+    quoteScopes,
     total,
     customerName: String(customerName || '').trim(),
     customerMobile: String(customerMobile || '').trim(),
     customerAddress: String(customerAddress || '').trim(),
     siteAddress: String(siteAddress || '').trim(),
-    scope: paintScope === 'interior' ? 'Interior Painting' : 'Exterior Painting',
+    scope: paintScope === 'both' ? 'Interior & Exterior Painting' : paintScope === 'interior' ? 'Interior Painting' : 'Exterior Painting',
     propertyStatus: isVacant ? 'Vacant House' : 'Occupied / Furnished'
   };
 }
@@ -127,15 +140,22 @@ function toggleSummaryModal(show) {
   footerMobile.textContent = quote.customerMobile;
   footerMobile.closest('span').hidden = !quote.customerMobile;
   document.getElementById('previewTotal').textContent = formatIndianMoney(quote.total);
-  document.getElementById('previewTotalWords').textContent = 'Inclusive of all applicable charges';
+  const scopeSubtotals = quote.quoteScopes.length > 1
+    ? `${quote.quoteScopes.map(scope => `${scope.label}: ${formatIndianMoney(scope.total)}`).join(' · ')} · `
+    : '';
+  document.getElementById('previewTotalWords').textContent = `${scopeSubtotals}Inclusive of all applicable charges`;
 
   const visibleRooms = quote.quoteRooms.filter(room =>
     (room.hasArea && room.pkg) || room.addons.length > 0
   );
 
+  let lastVisibleScope = '';
   document.getElementById('previewRows').innerHTML = visibleRooms.map((room, index) => {
     const hasPaintLine = room.hasArea && room.pkg;
+    const scopeHeading = room.scope !== lastVisibleScope ? `<tr class="quote-scope-heading"><td colspan="6">${room.scope} estimate</td></tr>` : '';
+    lastVisibleScope = room.scope;
     return `
+    ${scopeHeading}
     <tr>
       <td>${index + 1}</td>
       <td><div class="quote-room-cell"><div><span class="quote-room-name">${room.name}</span>${room.hasArea ? `<span class="quote-room-area">${room.area} sq.ft</span>` : ''}</div></div></td>
@@ -147,6 +167,7 @@ function toggleSummaryModal(show) {
     ${room.addons.map(a => `<tr class="quote-addon-row"><td></td><td></td><td colspan="2"><span style="font-weight:800">${a.label}</span> <span style="color:#687b8c">${a.detail}</span></td><td></td><td>${formatIndianMoney(a.amount)}</td></tr>`).join('')}
   `;
   }).join('');
+  const scopeStyle = document.getElementById('quoteScopeHeadingStyle') || document.head.appendChild(Object.assign(document.createElement('style'), { id: 'quoteScopeHeadingStyle', textContent: '.quote-scope-heading td{background:#eaf2f8;color:#164763;font-weight:800;text-transform:uppercase;letter-spacing:.04em;padding:9px 12px}' }));
 
   const hasQuotedItems = visibleRooms.length > 0;
   document.querySelector('.official-section-head').hidden = !hasQuotedItems;

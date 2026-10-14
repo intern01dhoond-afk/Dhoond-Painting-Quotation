@@ -51,8 +51,8 @@ function renderActiveRoom() {
       document.getElementById('inputRoomArea').value = room.area;
 
       if (pkg) {
-        document.getElementById('displayPackageName').innerText = `${pkg.name} (₹ ${pkg.rate}/sq.ft.)`;
-        document.getElementById('displayPackageRate').innerText = `₹ ${pkg.rate + room.puttyRate}/sq.ft. (incl. putty)`;
+        document.getElementById('displayPackageName').innerText = `${pkg.name} (₹ ${getPackageRate(pkg)}/sq.ft.)`;
+        document.getElementById('displayPackageRate').innerText = `₹ ${getEffectivePaintRate(pkg, room.puttyRate)}/sq.ft. (incl. putty)${isVacant ? ' · ₹1 vacant rate reduction applied' : ' · Furnished rate'}`;
       } else {
         document.getElementById('displayPackageName').innerText = `${paintScope === 'exterior' ? 'Exterior packages not configured yet' : 'Select a paint package'}`;
         document.getElementById('displayPackageRate').innerText = paintScope === 'exterior' ? 'Add exterior rates to enable package selection' : 'Select a package';
@@ -113,12 +113,13 @@ function renderActiveRoom() {
       document.getElementById('inputCustomAddonPrice').value = customAddon.price || '';
 
       // Total Room Calculation
-      const paintingCost = pkg ? room.area * (pkg.rate + room.puttyRate) : 0;
+      const effectiveRate = getEffectivePaintRate(pkg, room.puttyRate);
+      const paintingCost = pkg ? room.area * effectiveRate : 0;
       const customAddonCost = customAddon.name ? Math.max(0, Number(customAddon.price) || 0) : 0;
       const totalAddonCost = (selectedDoor.sqftRate > 0 ? totalDoorCost : 0) + (selectedGrill.sqftRate > 0 ? totalGrillCost : 0) + customAddonCost;
       const totalRoomCost = paintingCost + totalAddonCost;
 
-      let subtotalDetail = room.area === '' ? `Enter area × ₹${pkg.rate + room.puttyRate}/sq.ft` : `${room.area} sq.ft × ₹${pkg.rate + room.puttyRate}/sq.ft`;
+      let subtotalDetail = room.area === '' ? `Enter area × ₹${effectiveRate}/sq.ft` : `${room.area} sq.ft × ₹${effectiveRate}/sq.ft`;
       if (totalAddonCost > 0) {
         subtotalDetail += ` + ₹${totalAddonCost.toLocaleString('en-IN')} add-ons`;
       }
@@ -324,7 +325,7 @@ function renderPackageList() {
         <div onclick="selectPackage(${item.originalIndex})" class="px-4 py-3.5 hover:bg-gray-50 flex items-center justify-between cursor-pointer transition ${
           item.originalIndex === activePkgIdx ? 'bg-[#F7FBFF]/70 text-[#2196F3] font-bold' : ''
         }">
-          <span class="pr-2 leading-relaxed">${item.name} (₹ ${item.rate}/sq.ft.)</span>
+        <span class="pr-2 leading-relaxed">${item.name}<small class="block mt-1 text-[11px] font-normal text-gray-500">Vacant ₹${getPackageRate(item)}/sq.ft. · Furnished ₹${Number(item.rate)}/sq.ft.</small></span>
           ${item.originalIndex === activePkgIdx ? '<i class="fa-solid fa-check text-[#2196F3] text-sm"></i>' : ''}
         </div>
       `).join('');
@@ -335,7 +336,7 @@ function recalcGrandTotal() {
       let grandTotal = 0;
       rooms.forEach(r => {
         const pkg = PACKAGES[r.packageIndex];
-        let roomCost = pkg ? r.area * (pkg.rate + r.puttyRate) : 0;
+        let roomCost = pkg ? r.area * getEffectivePaintRate(pkg, r.puttyRate) : 0;
 
         const d = ADDON_CATALOG.door.find(x => x.id === r.doorSelection.id);
         if (d && d.sqftRate > 0) {
