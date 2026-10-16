@@ -1,4 +1,6 @@
 // Main quotation UI and calculations
+let activePackagePickerType = 'wall';
+
 function setOccupancy(vacant) {
       isVacant = vacant;
 
@@ -49,6 +51,9 @@ function renderActiveRoom() {
 
       document.getElementById('headerRoomTitle').innerText = room.name;
       document.getElementById('inputRoomArea').value = room.area;
+      document.getElementById('inputRoomCeilingArea').value = room.ceilingArea ?? '';
+      document.getElementById('displayCeilingPackageName').innerText = `Ceiling Paint (₹${room.ceilingRate}/sq.ft.)`;
+      document.getElementById('displayCeilingPackageRate').innerText = `₹${room.ceilingRate}/sq.ft. ceiling rate`;
 
       if (pkg) {
         document.getElementById('displayPackageName').innerText = `${pkg.name} (₹ ${getPackageRate(pkg)}/sq.ft.)`;
@@ -114,12 +119,15 @@ function renderActiveRoom() {
 
       // Total Room Calculation
       const effectiveRate = getEffectivePaintRate(pkg, room.puttyRate);
-      const paintingCost = pkg ? room.area * effectiveRate : 0;
+      const billableArea = (Number(room.area) || 0) + (Number(room.ceilingArea) || 0);
+      const wallCost = pkg ? (Number(room.area) || 0) * effectiveRate : 0;
+      const ceilingCost = (Number(room.ceilingArea) || 0) * (Number(room.ceilingRate) || 6);
+      const paintingCost = wallCost + ceilingCost;
       const customAddonCost = customAddon.name ? Math.max(0, Number(customAddon.price) || 0) : 0;
       const totalAddonCost = (selectedDoor.sqftRate > 0 ? totalDoorCost : 0) + (selectedGrill.sqftRate > 0 ? totalGrillCost : 0) + customAddonCost;
       const totalRoomCost = paintingCost + totalAddonCost;
 
-      let subtotalDetail = room.area === '' ? `Enter area × ₹${effectiveRate}/sq.ft` : `${room.area} sq.ft × ₹${effectiveRate}/sq.ft`;
+      let subtotalDetail = `Walls ${Number(room.area) || 0} sq.ft × ₹${effectiveRate} + ceiling ${Number(room.ceilingArea) || 0} sq.ft × ₹${room.ceilingRate}/sq.ft`;
       if (totalAddonCost > 0) {
         subtotalDetail += ` + ₹${totalAddonCost.toLocaleString('en-IN')} add-ons`;
       }
@@ -264,6 +272,16 @@ function updateRoomArea(val) {
       renderActiveRoom();
     }
 
+function updateRoomCeilingArea(val) {
+      rooms[activeRoomIndex].ceilingArea = val === '' ? '' : Math.max(0, parseInt(val) || 0);
+      renderActiveRoom();
+    }
+
+function setCeilingRate(rate) {
+      rooms[activeRoomIndex].ceilingRate = [6, 7, 8].includes(Number(rate)) ? Number(rate) : 6;
+      renderActiveRoom();
+    }
+
 
 function adjustArea(delta) {
       rooms[activeRoomIndex].area = Math.max(0, (Number(rooms[activeRoomIndex].area) || 0) + delta);
@@ -278,7 +296,19 @@ function setPutty(rate) {
 
 
 function openPackagePicker() {
+      activePackagePickerType = 'wall';
       document.getElementById('sheetTitle').innerText = `${rooms[activeRoomIndex].name} - ${paintScope === 'interior' ? 'Interior' : 'Exterior'} Paint Package`;
+      document.getElementById('searchPackageInput').value = '';
+      document.getElementById('searchPackageInput').placeholder = 'Search paint name, coats, or primer...';
+      renderPackageList();
+      document.getElementById('pickerSheet').classList.remove('hidden');
+    }
+
+function openCeilingPackagePicker() {
+      activePackagePickerType = 'ceiling';
+      document.getElementById('sheetTitle').innerText = `${rooms[activeRoomIndex].name} - Ceiling Paint Package`;
+      document.getElementById('searchPackageInput').value = '';
+      document.getElementById('searchPackageInput').placeholder = 'Choose a ceiling rate...';
       renderPackageList();
       document.getElementById('pickerSheet').classList.remove('hidden');
     }
@@ -290,6 +320,11 @@ function closePackagePicker() {
 
 
 function selectPackage(idx) {
+      if (activePackagePickerType === 'ceiling') {
+        setCeilingRate(idx);
+        closePackagePicker();
+        return;
+      }
       rooms[activeRoomIndex].packageIndex = idx;
       closePackagePicker();
       renderActiveRoom();
@@ -299,6 +334,12 @@ function selectPackage(idx) {
 function renderPackageList() {
       const query = (document.getElementById('searchPackageInput')?.value || '').toLowerCase();
       const container = document.getElementById('packageListContainer');
+      if (activePackagePickerType === 'ceiling') {
+        container.innerHTML = [6, 7, 8].filter(rate => !query || String(rate).includes(query) || `₹${rate}/sq.ft.`.includes(query))
+          .map(rate => `<div onclick="selectPackage(${rate})" class="px-4 py-3.5 hover:bg-gray-50 flex items-center justify-between cursor-pointer transition ${rooms[activeRoomIndex].ceilingRate === rate ? 'bg-[#F7FBFF]/70 text-[#2196F3] font-bold' : ''}"><span>Ceiling Paint<small class="block mt-1 text-[11px] font-normal text-gray-500">₹${rate}/sq.ft.</small></span>${rooms[activeRoomIndex].ceilingRate === rate ? '<i class="fa-solid fa-check text-[#2196F3] text-sm"></i>' : ''}</div>`)
+          .join('');
+        return;
+      }
       const activePkgIdx = rooms[activeRoomIndex].packageIndex;
 
       if (PACKAGES.length === 0) {
@@ -336,7 +377,8 @@ function recalcGrandTotal() {
       let grandTotal = 0;
       rooms.forEach(r => {
         const pkg = PACKAGES[r.packageIndex];
-        let roomCost = pkg ? r.area * getEffectivePaintRate(pkg, r.puttyRate) : 0;
+        let roomCost = (pkg ? (Number(r.area) || 0) * getEffectivePaintRate(pkg, r.puttyRate) : 0)
+          + (Number(r.ceilingArea) || 0) * (Number(r.ceilingRate) || 6);
 
         const d = ADDON_CATALOG.door.find(x => x.id === r.doorSelection.id);
         if (d && d.sqftRate > 0) {
@@ -363,9 +405,11 @@ function recalcGrandTotal() {
 function copyToAllRooms() {
       const currentPkg = rooms[activeRoomIndex].packageIndex;
       const currentPutty = rooms[activeRoomIndex].puttyRate;
+      const currentCeilingRate = rooms[activeRoomIndex].ceilingRate;
       rooms.forEach(r => {
         r.packageIndex = currentPkg;
         r.puttyRate = currentPutty;
+        r.ceilingRate = currentCeilingRate;
       });
       renderActiveRoom();
       alert(`Applied current paint spec to all spaces.`);
@@ -378,6 +422,8 @@ function addNewRoomPrompt() {
         rooms.push({
           name: name.trim(),
           area: '',
+          ceilingArea: '',
+          ceilingRate: 6,
           packageIndex: rooms[activeRoomIndex].packageIndex,
           puttyRate: 0,
           doorSelection: { id: null, width: 3, height: 7, isCustom: false, qty: 1 },

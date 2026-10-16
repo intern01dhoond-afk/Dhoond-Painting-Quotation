@@ -181,7 +181,7 @@
       <!-- Paintable Area Card -->
       <div class="bg-white px-4 py-3.5 border-b border-[#7D8080]">
         <div class="flex items-center justify-between mb-2">
-          <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Paintable Area</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-gray-500">Wall Area</span>
           <span class="text-xs text-gray-400">Standard 3.5× Carpet Area</span>
         </div>
         <div class="flex items-center gap-3">
@@ -195,7 +195,6 @@
           </div>
         </div>
       </div>
-
       <!-- Selected Paint Package -->
       <div class="bg-white px-4 py-3.5 border-b border-[#7D8080]">
         <label class="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Selected Paint Package</label>
@@ -245,9 +244,25 @@
           <span class="text-[11px] font-semibold text-[#2196F3] bg-[#F7FBFF] px-2.5 py-0.5 rounded-full">Custom Size</span>
         </div>
 
+        <!-- Ceiling painting is configured separately for this room -->
+        <div class="space-y-2">
+          <label for="inputRoomCeilingArea" class="text-[11px] font-bold uppercase text-gray-500">1. Ceiling Painting</label>
+          <div class="relative">
+            <input type="number" id="inputRoomCeilingArea" oninput="updateRoomCeilingArea(this.value)" placeholder="Enter ceiling area" class="w-full text-sm font-bold text-gray-900 border border-gray-300 rounded-lg px-3 py-2.5 bg-white focus:ring-2 focus:ring-[#2196F3] focus:outline-none" />
+            <span class="absolute right-3 top-2.5 text-xs font-semibold text-gray-400">sq.ft.</span>
+          </div>
+          <button onclick="openCeilingPackagePicker()" class="w-full text-left bg-gray-50 hover:bg-gray-100 border border-gray-300 rounded-xl p-3 flex items-center justify-between group transition">
+            <div class="pr-2">
+              <p id="displayCeilingPackageName" class="font-semibold text-gray-800 text-xs leading-snug">Ceiling Paint (₹6/sq.ft.)</p>
+              <p id="displayCeilingPackageRate" class="text-[11px] text-[#2196F3] font-bold mt-0.5">₹6/sq.ft. ceiling rate</p>
+            </div>
+            <i class="fa-solid fa-chevron-right text-gray-400 group-hover:text-gray-600 text-xs"></i>
+          </button>
+        </div>
+
         <!-- 1. DOORS TREATMENT -->
         <div class="space-y-2">
-          <label class="text-[11px] font-bold uppercase text-gray-500">1. Door Polish / Painting</label>
+          <label class="text-[11px] font-bold uppercase text-gray-500">2. Door Polish / Painting</label>
           
           <!-- Dropdown Trigger -->
           <button onclick="openAddonPicker('door')" class="w-full text-left bg-gray-50 hover:bg-gray-100 border border-gray-300 rounded-xl p-3 flex items-center justify-between group transition">
@@ -305,7 +320,7 @@
 
         <!-- 2. WINDOWS & GRILLS TREATMENT -->
         <div class="space-y-2">
-          <label class="text-[11px] font-bold uppercase text-gray-500">2. Window / Balcony Grill Enamel</label>
+          <label class="text-[11px] font-bold uppercase text-gray-500">3. Window / Balcony Grill Enamel</label>
           
           <!-- Dropdown Trigger -->
           <button onclick="openAddonPicker('grill')" class="w-full text-left bg-gray-50 hover:bg-gray-100 border border-gray-300 rounded-xl p-3 flex items-center justify-between group transition">
@@ -363,7 +378,7 @@
 
         <!-- CUSTOM ADD-ON -->
         <div class="space-y-2">
-          <label class="text-[11px] font-bold uppercase text-gray-500">3. Custom Add-on</label>
+          <label class="text-[11px] font-bold uppercase text-gray-500">4. Custom Add-on</label>
           <div class="grid grid-cols-[1fr_110px] gap-2">
             <div>
               <label for="inputCustomAddonName" class="text-[10px] text-gray-500 font-bold block mb-1">Service Name</label>
@@ -1003,10 +1018,10 @@
   <script src="js/data/packages.js"></script>
   <script src="js/data/addons.js"></script>
   <script src="js/state/store.js?v=20261014-vacant-rate"></script>
-  <script src="js/services/pdf.js?v=20261014-vacant-rate"></script>
+  <script src="js/services/pdf.js?v=20261016-ceiling-lineitem"></script>
   <script src="js/components/customer-flow.js?v=20261014-vacant-rate"></script>
-  <script src="js/components/quotation-ui.js?v=20261014-vacant-rate"></script>
-  <script src="js/components/summary.js?v=20261014-vacant-rate"></script>
+  <script src="js/components/quotation-ui.js?v=20261016-ceiling-package"></script>
+  <script src="js/components/summary.js?v=20261016-ceiling-lineitem"></script>
   <script src="js/app.js?v=20261007-fresh-start"></script>
 </body>
 </html>

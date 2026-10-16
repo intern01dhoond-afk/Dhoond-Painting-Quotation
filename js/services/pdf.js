@@ -40,9 +40,10 @@ function ensurePreviewIsReady() {
 }
 function normalizeQuote(q) {
   const rooms = (q.quoteRooms || q.rooms || []).map((r, i) => ({
-    index: Number(r.index) || i + 1, name: String(r.name || `Room ${i + 1}`), scope: String(r.scope || q.scope || 'Interior'), area: Number(r.area) || 0,
+    index: Number(r.index) || i + 1, name: String(r.name || `Room ${i + 1}`), scope: String(r.scope || q.scope || 'Interior'), area: Number(r.area) || 0, ceilingArea: Number(r.ceilingArea) || 0, ceilingRate: [6, 7, 8].includes(Number(r.ceilingRate)) ? Number(r.ceilingRate) : 6, billableArea: Number(r.billableArea ?? ((Number(r.area) || 0) + (Number(r.ceilingArea) || 0))) || 0,
     packageName: String(r.pkg || r.packageName || ''), rate: Number(r.rate) || 0,
     amount: Number(r.amount ?? r.paintCost ?? ((Number(r.area) || 0) * (Number(r.rate) || 0))) || 0,
+    ceilingAmount: Number(r.ceilingCost ?? ((Number(r.ceilingArea) || 0) * ([6, 7, 8].includes(Number(r.ceilingRate)) ? Number(r.ceilingRate) : 6))) || 0,
     addons: Array.isArray(r.addons) ? r.addons.map(a => ({ label: String(a.label || a.name || 'Add-on'), detail: String(a.detail || ''), amount: Number(a.amount) || 0 })) : []
   }));
   return {
@@ -57,16 +58,22 @@ function normalizeQuote(q) {
 }
 function estimateLines(q) {
   const lines = [];
+  const roomNumbers = {};
   q.rooms.forEach(r => {
-    if (r.area > 0 && r.packageName) lines.push({ kind: 'paint', scope: r.scope, roomIndex: `${r.scope}-${r.index}`, roomName: r.name, area: r.area, packageName: r.packageName, rate: r.rate, amount: r.amount });
+    if (r.area > 0 && r.packageName) {
+      roomNumbers[r.scope] = (roomNumbers[r.scope] || 0) + 1;
+      lines.push({ kind: 'paint', lineNumber: roomNumbers[r.scope], scope: r.scope, roomIndex: `${r.scope}-${r.index}`, roomName: r.name, area: r.area, packageName: r.packageName, rate: r.rate, amount: r.amount });
+    }
+    if (r.ceilingArea > 0) lines.push({ kind: 'ceiling', scope: r.scope, roomIndex: `${r.scope}-${r.index}`, roomName: r.name, area: r.ceilingArea, rate: r.ceilingRate, amount: r.ceilingAmount });
     r.addons.forEach(a => lines.push({ kind: 'addon', scope: r.scope, roomIndex: `${r.scope}-${r.index}`, roomName: r.name, label: a.label, detail: a.detail, amount: a.amount }));
   });
   return lines;
 }
 function estimateRow(line, index) {
   if (line.kind === 'addon') return `<tr class="addon-row"><td></td><td colspan="3"><strong>${esc(line.label)}</strong><span class="addon-detail">${esc(line.detail)}${line.roomName ? ` · ${esc(line.roomName)}` : ''}</span></td><td class="center">—</td><td class="amount">${money(line.amount)}</td></tr>`;
+  if (line.kind === 'ceiling') return `<tr class="addon-row ceiling-row"><td></td><td><strong>Ceiling Painting</strong><small>${esc(line.roomName)}</small></td><td><strong>Ceiling Paint</strong><small>Ceiling finish</small></td><td class="center">${esc(line.area.toLocaleString('en-IN'))}<small>sq.ft</small></td><td class="center">${money(line.rate)}</td><td class="amount">${money(line.amount)}</td></tr>`;
   const p = line.packageName.split(' - ');
-  return `<tr class="paint-row"><td class="center">${index + 1}</td><td><strong>${esc(line.roomName)}</strong><small>${esc(line.area.toLocaleString('en-IN'))} sq.ft</small></td><td><strong>${esc(p[0])}</strong><small>${esc(p.slice(1).join(' · ') || 'Selected package')}</small></td><td class="center">${esc(line.area.toLocaleString('en-IN'))}<small>sq.ft</small></td><td class="center">${money(line.rate)}</td><td class="amount">${money(line.amount)}</td></tr>`;
+  return `<tr class="paint-row"><td class="center">${line.lineNumber || index + 1}</td><td><strong>${esc(line.roomName)}</strong><small>${esc(line.area.toLocaleString('en-IN'))} sq.ft walls</small></td><td><strong>${esc(p[0])}</strong><small>${esc(p.slice(1).join(' · ') || 'Selected package')}</small></td><td class="center">${esc(line.area.toLocaleString('en-IN'))}<small>sq.ft</small></td><td class="center">${money(line.rate)}</td><td class="amount">${money(line.amount)}</td></tr>`;
 }
 function estimateTable(lines, { showTotal = false, total = 0, scopeTotals = [] } = {}) {
   let lastScope = '';

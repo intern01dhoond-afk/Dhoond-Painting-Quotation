@@ -30,9 +30,16 @@ function getPreviewQuoteData() {
     const scopeRoomsData = scopeRooms.map((r, index) => {
     const pkg = packages[r.packageIndex];
     const area = Number(r.area) || 0;
-    const hasArea = area > 0;
+    const ceilingArea = Number(r.ceilingArea) || 0;
+    const billableArea = area + ceilingArea;
+    const hasWallArea = area > 0;
+    const hasCeilingArea = ceilingArea > 0;
+    const hasArea = billableArea > 0;
     const effectiveRate = getEffectivePaintRate(pkg, r.puttyRate);
-    const paintCost = pkg && hasArea ? area * effectiveRate : 0;
+    const ceilingRate = [6, 7, 8].includes(Number(r.ceilingRate)) ? Number(r.ceilingRate) : 6;
+    const wallCost = pkg && hasWallArea ? area * effectiveRate : 0;
+    const ceilingCost = ceilingArea * ceilingRate;
+    const paintCost = wallCost + ceilingCost;
     let addonCost = 0;
     const addons = [];
     const d = ADDON_CATALOG.door.find(x => x.id === r.doorSelection.id);
@@ -58,10 +65,16 @@ function getPreviewQuoteData() {
       scope: scopeLabel,
       name: r.name,
       area,
+      ceilingArea,
+      ceilingRate,
+      ceilingCost,
+      billableArea,
       hasArea,
+      hasWallArea,
+      hasCeilingArea,
       pkg: pkg ? pkg.name : '',
       rate: effectiveRate,
-      amount: paintCost,
+      amount: wallCost,
       addons
     };
     scopeTotal += paintCost + addonCost;
@@ -146,24 +159,26 @@ function toggleSummaryModal(show) {
   document.getElementById('previewTotalWords').textContent = `${scopeSubtotals}Inclusive of all applicable charges`;
 
   const visibleRooms = quote.quoteRooms.filter(room =>
-    (room.hasArea && room.pkg) || room.addons.length > 0
+    (room.hasWallArea && room.pkg) || room.hasCeilingArea || room.addons.length > 0
   );
 
   let lastVisibleScope = '';
   document.getElementById('previewRows').innerHTML = visibleRooms.map((room, index) => {
-    const hasPaintLine = room.hasArea && room.pkg;
+    const hasPaintLine = room.hasWallArea && room.pkg;
+    const hasCeilingLine = room.hasCeilingArea;
     const scopeHeading = room.scope !== lastVisibleScope ? `<tr class="quote-scope-heading"><td colspan="6">${room.scope} estimate</td></tr>` : '';
     lastVisibleScope = room.scope;
     return `
     ${scopeHeading}
-    <tr>
+    ${hasPaintLine ? `<tr>
       <td>${index + 1}</td>
-      <td><div class="quote-room-cell"><div><span class="quote-room-name">${room.name}</span>${room.hasArea ? `<span class="quote-room-area">${room.area} sq.ft</span>` : ''}</div></div></td>
-      <td>${hasPaintLine ? `<div class="quote-package"><strong>${room.pkg.split(' - ')[0]}</strong><span>${room.pkg.split(' - ').slice(1).join(' · ')}</span></div>` : ''}</td>
-      <td>${room.hasArea ? `${room.area}<br><span style="font-weight:400;color:#687b8c">sq.ft</span>` : ''}</td>
-      <td>${hasPaintLine ? `₹${room.rate}` : ''}</td>
-      <td>${hasPaintLine ? formatIndianMoney(room.amount) : ''}</td>
-    </tr>
+      <td><div class="quote-room-cell"><div><span class="quote-room-name">${room.name}</span><span class="quote-room-area">Walls ${room.area} sq.ft</span></div></div></td>
+      <td><div class="quote-package"><strong>${room.pkg.split(' - ')[0]}</strong><span>${room.pkg.split(' - ').slice(1).join(' · ')}</span></div></td>
+      <td>${room.area}<br><span style="font-weight:400;color:#687b8c">sq.ft</span></td>
+      <td>₹${room.rate}</td>
+      <td>${formatIndianMoney(room.amount)}</td>
+    </tr>` : ''}
+    ${hasCeilingLine ? `<tr class="quote-addon-row ceiling-quote-row"><td></td><td><span class="quote-room-name">Ceiling Painting</span><span class="quote-room-area">${room.name}</span></td><td><div class="quote-package"><strong>Ceiling Paint</strong><span>${room.name}</span></div></td><td>${room.ceilingArea}<br><span style="font-weight:400;color:#687b8c">sq.ft</span></td><td>₹${room.ceilingRate}</td><td>${formatIndianMoney(room.ceilingCost)}</td></tr>` : ''}
     ${room.addons.map(a => `<tr class="quote-addon-row"><td></td><td></td><td colspan="2"><span style="font-weight:800">${a.label}</span> <span style="color:#687b8c">${a.detail}</span></td><td></td><td>${formatIndianMoney(a.amount)}</td></tr>`).join('')}
   `;
   }).join('');
