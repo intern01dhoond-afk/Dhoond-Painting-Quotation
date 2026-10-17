@@ -57,7 +57,7 @@ function renderActiveRoom() {
 
       if (pkg) {
         document.getElementById('displayPackageName').innerText = `${pkg.name} (₹ ${getPackageRate(pkg)}/sq.ft.)`;
-        document.getElementById('displayPackageRate').innerText = `₹ ${getEffectivePaintRate(pkg, room.puttyRate)}/sq.ft. (incl. putty)${isVacant ? ' · ₹1 vacant rate reduction applied' : ' · Furnished rate'}`;
+        document.getElementById('displayPackageRate').innerText = `₹ ${getEffectivePaintRate(pkg, room.puttyRate)}/sq.ft. (incl. putty)`;
       } else {
         document.getElementById('displayPackageName').innerText = `${paintScope === 'exterior' ? 'Exterior packages not configured yet' : 'Select a paint package'}`;
         document.getElementById('displayPackageRate').innerText = paintScope === 'exterior' ? 'Add exterior rates to enable package selection' : 'Select a package';
@@ -366,7 +366,7 @@ function renderPackageList() {
         <div onclick="selectPackage(${item.originalIndex})" class="px-4 py-3.5 hover:bg-gray-50 flex items-center justify-between cursor-pointer transition ${
           item.originalIndex === activePkgIdx ? 'bg-[#F7FBFF]/70 text-[#2196F3] font-bold' : ''
         }">
-        <span class="pr-2 leading-relaxed">${item.name}<small class="block mt-1 text-[11px] font-normal text-gray-500">Vacant ₹${getPackageRate(item)}/sq.ft. · Furnished ₹${Number(item.rate)}/sq.ft.</small></span>
+        <span class="pr-2 leading-relaxed">${item.name}<small class="block mt-1 text-[11px] font-normal text-gray-500">₹${getPackageRate(item)}/sq.ft.</small></span>
           ${item.originalIndex === activePkgIdx ? '<i class="fa-solid fa-check text-[#2196F3] text-sm"></i>' : ''}
         </div>
       `).join('');

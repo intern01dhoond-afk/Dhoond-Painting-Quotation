@@ -14,7 +14,7 @@
       { 
         name: "Master Bedroom", 
         area: '', ceilingArea: '', ceilingRate: 6,
-        packageIndex: 6, // Premium - Single Coat - With Primer (₹18)
+        packageIndex: 17, // Premium Emulsion - Double Coat - With Primer (₹18)
         puttyRate: 0,
         customAddon: { name: '', price: 0 },
         doorSelection: { id: null, width: 3, height: 7, isCustom: false, qty: 1 },
@@ -50,7 +50,7 @@
     let PACKAGES = INTERIOR_PACKAGES;
 
 function getPackageRate(pkg) {
-  return Math.max(0, Number(pkg?.rate) - (isVacant ? 1 : 0));
+  return Math.max(0, Number(pkg?.rate) || 0);
 }
 
 function getEffectivePaintRate(pkg, puttyRate = 0) {
